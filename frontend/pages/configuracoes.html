@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Configurações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDark = storedTheme === "dark" || (!storedTheme && prefersDark);
+      window.__alimenteInitialDarkMode = isDark;
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+          colors: {
+            alimente: {
+              black: "#1A1A1A",
+              yellow: "#FFD700",
+              white: "#FFFFFF",
+            },
+          },
+          boxShadow: {
+            soft: "0 2px 12px rgba(0,0,0,0.08)",
+            lift: "0 18px 45px rgba(26,26,26,0.10)",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] font-sans text-[#1A1A1A] dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 flex-col gap-8 bg-[#1A1A1A] p-5 text-white transition-all duration-300 md:flex">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Dashboard do Doador</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15 focus:outline-none focus:ring-4 focus:ring-yellow-200/30" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navegação principal">
+        <a href="dashboardDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white">
+          <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Dashboard</span>
+        </a>
+        <a href="minhasDoacoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white">
+          <i data-lucide="hand-heart" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Minhas Doações</span>
+        </a>
+        <a href="historico.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white">
+          <i data-lucide="history" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Histórico</span>
+        </a>
+        <a href="desempenhoDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white">
+          <i data-lucide="bar-chart-3" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Desempenho</span>
+        </a>
+        <a href="perfil.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white">
+          <i data-lucide="store" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Perfil</span>
+        </a>
+        <a href="configuracoes.html" class="flex items-center gap-3 rounded-3xl bg-white/5 px-3 py-3 font-semibold text-[#FFD700] transition-all duration-300">
+          <i data-lucide="settings" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Configurações</span>
+        </a>
+      </nav>
+
+      <div data-sidebar-panel class="mt-auto rounded-3xl border border-white/15 bg-white/5 p-4">
+        <p class="text-sm text-white/75">Segurança do sistema</p>
+        <div class="mt-2 flex items-center gap-2 font-semibold text-[#FFD700]">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          Proteções essenciais ativas
+        </div>
+      </div>
+    </aside>
+
+    <main id="mainContent" class="min-w-0 flex-1 bg-[#F9FAFB] p-4 pb-28 transition-all duration-300 md:p-8 md:pb-8">
+      <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-sm font-medium text-neutral-500">Preferências do Sistema</p>
+          <h1 class="text-2xl font-extrabold md:text-3xl">Configurações</h1>
+        </div>
+        <button type="button" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#FFD700] px-6 py-3 font-bold text-[#1A1A1A] shadow-md transition hover:-translate-y-0.5 hover:bg-[#f2c600] hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-200">
+          <i data-lucide="save" class="h-5 w-5"></i>
+          Salvar Alterações
+        </button>
+      </header>
+
+      <section class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-12">
+        <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift xl:col-span-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold text-neutral-500">Operação</p>
+              <h2 class="mt-1 text-xl font-extrabold">Janelas de Coleta</h2>
+            </div>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-yellow-50 text-[#1A1A1A]">
+              <i data-lucide="clock-3" class="h-5 w-5"></i>
+            </span>
+          </div>
+
+          <div class="mt-5 grid gap-4 md:grid-cols-3">
+            <label class="md:col-span-3">
+              <span class="mb-2 block text-sm font-bold">Dias padrão</span>
+              <select class="w-full rounded-2xl border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition hover:border-neutral-300 focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100">
+                <option>Segunda a Sexta</option>
+                <option>Segunda a Sábado</option>
+                <option>Todos os dias</option>
+              </select>
+            </label>
+            <label>
+              <span class="mb-2 block text-sm font-bold">Início</span>
+              <input type="time" value="14:00" class="w-full rounded-2xl border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition hover:border-neutral-300 focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+            </label>
+            <label>
+              <span class="mb-2 block text-sm font-bold">Término</span>
+              <input type="time" value="18:00" class="w-full rounded-2xl border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition hover:border-neutral-300 focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+            </label>
+            <label>
+              <span class="mb-2 block text-sm font-bold">Intervalo mínimo</span>
+              <select class="w-full rounded-2xl border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition hover:border-neutral-300 focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100">
+                <option>30 minutos</option>
+                <option>45 minutos</option>
+                <option>60 minutos</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="mt-5 flex cursor-pointer items-center justify-between gap-4 rounded-3xl border border-neutral-100 bg-[#F9FAFB] p-4 transition hover:border-yellow-200 hover:bg-yellow-50/40">
+            <span>
+              <span class="block font-bold">Permitir coletas fora do horário comercial</span>
+              <span class="mt-1 block text-sm text-neutral-500">ONGs podem solicitar exceções para janelas urgentes.</span>
+            </span>
+            <input type="checkbox" class="peer sr-only" />
+            <span class="relative h-8 w-14 shrink-0 rounded-full bg-neutral-300 transition after:absolute after:left-1 after:top-1 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition peer-checked:bg-[#FFD700] peer-checked:after:translate-x-6 peer-focus-visible:ring-4 peer-focus-visible:ring-yellow-200"></span>
+          </label>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift xl:col-span-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold text-neutral-500">Alertas</p>
+              <h2 class="mt-1 text-xl font-extrabold">Notificações</h2>
+            </div>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-yellow-50">
+              <i data-lucide="bell-ring" class="h-5 w-5"></i>
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-3">
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-neutral-100 p-3 transition hover:border-yellow-200 hover:bg-yellow-50/30">
+              <input type="checkbox" checked class="mt-0.5 h-5 w-5 rounded-md border-neutral-300 text-[#FFD700] accent-[#FFD700] focus:ring-[#FFD700]" />
+              <span>
+                <span class="block font-bold">Novos agendamentos de ONGs</span>
+                <span class="text-sm text-neutral-500">Avisos quando uma coleta for reservada.</span>
+              </span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-neutral-100 p-3 transition hover:border-yellow-200 hover:bg-yellow-50/30">
+              <input type="checkbox" checked class="mt-0.5 h-5 w-5 rounded-md border-neutral-300 text-[#FFD700] accent-[#FFD700] focus:ring-[#FFD700]" />
+              <span>
+                <span class="block font-bold">Lembretes de validade de produtos</span>
+                <span class="text-sm text-neutral-500">Prioriza itens próximos do vencimento.</span>
+              </span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-neutral-100 p-3 transition hover:border-yellow-200 hover:bg-yellow-50/30">
+              <input type="checkbox" class="mt-0.5 h-5 w-5 rounded-md border-neutral-300 text-[#FFD700] accent-[#FFD700] focus:ring-[#FFD700]" />
+              <span>
+                <span class="block font-bold">Relatórios mensais de impacto</span>
+                <span class="text-sm text-neutral-500">Resumo operacional enviado no fechamento do mês.</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="mt-5">
+            <p class="mb-3 text-sm font-bold">Canais</p>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="cursor-pointer">
+                <input type="checkbox" checked class="peer sr-only" />
+                <span class="flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-3 py-2 text-sm font-bold transition peer-checked:border-[#FFD700] peer-checked:bg-[#FFD700] hover:border-[#FFD700]">
+                  <i data-lucide="mail" class="h-4 w-4"></i>E-mail
+                </span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="checkbox" checked class="peer sr-only" />
+                <span class="flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-3 py-2 text-sm font-bold transition peer-checked:border-[#FFD700] peer-checked:bg-[#FFD700] hover:border-[#FFD700]">
+                  <i data-lucide="smartphone" class="h-4 w-4"></i>Push
+                </span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="checkbox" class="peer sr-only" />
+                <span class="flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-3 py-2 text-sm font-bold transition peer-checked:border-[#FFD700] peer-checked:bg-[#FFD700] hover:border-[#FFD700]">
+                  <i data-lucide="message-circle" class="h-4 w-4"></i>WhatsApp
+                </span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift xl:col-span-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold text-neutral-500">Acesso</p>
+              <h2 class="mt-1 text-xl font-extrabold">Segurança</h2>
+            </div>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-yellow-50">
+              <i data-lucide="shield-check" class="h-5 w-5"></i>
+            </span>
+          </div>
+
+          <div class="mt-5 grid gap-3 sm:grid-cols-2">
+            <button type="button" class="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-3 font-bold transition hover:-translate-y-0.5 hover:border-[#FFD700] hover:bg-yellow-50 focus:outline-none focus:ring-4 focus:ring-yellow-100">
+              <i data-lucide="key-round" class="h-5 w-5"></i>
+              Alterar Senha
+            </button>
+            <button type="button" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#1A1A1A] px-4 py-3 font-bold text-white transition hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-yellow-100">
+              <i data-lucide="scan-face" class="h-5 w-5 text-[#FFD700]"></i>
+              Ativar Autenticação em Duas Etapas (2FA)
+            </button>
+          </div>
+
+          <div class="mt-6">
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="font-extrabold">Dispositivos conectados recentemente</h3>
+              <button type="button" class="rounded-full px-3 py-1.5 text-sm font-bold text-neutral-600 transition hover:bg-yellow-50 hover:text-[#1A1A1A] focus:outline-none focus:ring-4 focus:ring-yellow-100">Gerenciar</button>
+            </div>
+            <div class="mt-3 divide-y divide-neutral-100 rounded-3xl border border-neutral-100">
+              <div class="flex items-center justify-between gap-3 p-4">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#F9FAFB]"><i data-lucide="monitor" class="h-5 w-5"></i></span>
+                  <div>
+                    <p class="font-bold">Chrome no Windows</p>
+                    <p class="text-sm text-neutral-500">São Paulo, Brasil · Agora</p>
+                  </div>
+                </div>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">Atual</span>
+              </div>
+              <div class="flex items-center justify-between gap-3 p-4">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#F9FAFB]"><i data-lucide="smartphone" class="h-5 w-5"></i></span>
+                  <div>
+                    <p class="font-bold">Alimente App no Android</p>
+                    <p class="text-sm text-neutral-500">Campinas, Brasil · Ontem às 18:42</p>
+                  </div>
+                </div>
+                <button type="button" class="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-bold transition hover:border-[#FFD700] hover:bg-yellow-50 focus:outline-none focus:ring-4 focus:ring-yellow-100">Revogar</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift xl:col-span-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold text-neutral-500">Interface</p>
+              <h2 class="mt-1 text-xl font-extrabold">Preferências de Exibição</h2>
+            </div>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-yellow-50">
+              <i data-lucide="sliders-horizontal" class="h-5 w-5"></i>
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-3">
+            <label class="flex cursor-pointer items-center justify-between gap-4 rounded-3xl border border-neutral-100 bg-[#F9FAFB] p-4 transition hover:border-yellow-200 hover:bg-yellow-50/40">
+              <span>
+                <span class="block font-bold">Modo Escuro</span>
+                <span class="mt-1 block text-sm text-neutral-500">Reduz brilho em ambientes com pouca luz.</span>
+              </span>
+              <input type="checkbox" class="peer sr-only" data-dark-mode-preference />
+              <script>
+                (function () {
+                  const input = document.currentScript.previousElementSibling;
+                  if (window.__alimenteInitialDarkMode) input.checked = true;
+                })();
+              </script>
+              <span class="relative h-8 w-14 shrink-0 rounded-full bg-neutral-300 transition after:absolute after:left-1 after:top-1 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition peer-checked:bg-[#FFD700] peer-checked:after:translate-x-6 peer-focus-visible:ring-4 peer-focus-visible:ring-yellow-200"></span>
+            </label>
+
+            <label class="flex cursor-pointer items-center justify-between gap-4 rounded-3xl border border-neutral-100 bg-[#F9FAFB] p-4 transition hover:border-yellow-200 hover:bg-yellow-50/40">
+              <span>
+                <span class="block font-bold">Ocultar valores financeiros nos gráficos</span>
+                <span class="mt-1 block text-sm text-neutral-500">Substitui valores por indicadores visuais.</span>
+              </span>
+              <input type="checkbox" checked class="peer sr-only" />
+              <span class="relative h-8 w-14 shrink-0 rounded-full bg-neutral-300 transition after:absolute after:left-1 after:top-1 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition peer-checked:bg-[#FFD700] peer-checked:after:translate-x-6 peer-focus-visible:ring-4 peer-focus-visible:ring-yellow-200"></span>
+            </label>
+          </div>
+
+          <div class="mt-5 rounded-3xl border border-yellow-200 bg-yellow-50/60 p-4">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FFD700]">
+                <i data-lucide="lock-keyhole" class="h-5 w-5"></i>
+              </span>
+              <div>
+                <p class="font-extrabold">Controle centralizado</p>
+                <p class="text-sm text-neutral-600">Preferências salvas afetam apenas operação, segurança e visualização.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <nav class="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-[#1A1A1A] md:hidden">
+    <ul class="grid grid-cols-6">
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="dashboardDoador.html"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Início</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="minhasDoacoes.html"><i data-lucide="hand-heart" class="h-4 w-4"></i>Doações</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="historico.html"><i data-lucide="history" class="h-4 w-4"></i>Hist.</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="desempenhoDoador.html"><i data-lucide="bar-chart-3" class="h-4 w-4"></i>Dados</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="perfil.html"><i data-lucide="store" class="h-4 w-4"></i>Perfil</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] font-semibold text-[#FFD700]" href="configuracoes.html"><i data-lucide="settings" class="h-4 w-4"></i>Ajustes</a></li>
+    </ul>
+  </nav>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+    const sidebarPanel = document.querySelector("[data-sidebar-panel]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebarToggle.setAttribute("aria-label", isCollapsed ? "Expandir sidebar" : "Recolher sidebar");
+
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+
+      sidebarLabels.forEach((label) => {
+        label.classList.toggle("hidden", isCollapsed);
+      });
+
+      sidebarPanel.classList.toggle("hidden", isCollapsed);
+      sidebarToggle.innerHTML = isCollapsed
+        ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>'
+        : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+  </script>
+  <script src="dashboard-theme.js"></script>
+</body>
+</html>

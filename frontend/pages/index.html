@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alimente | Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo-link" href="/" aria-label="Página inicial do Alimente">
+        <span class="logo-placeholder" role="img" aria-label="Logo temporário Alimente">A</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <ul>
+          <li><a href="#quem-somos">Quem Somos</a></li>
+          <li><a href="#como-funciona">Como Funciona</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <a class="button button-primary header-cta" href="login.html" aria-label="Acesse o Painel de Solidariedade">Acesse o Painel de Solidariedade</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero full-bleed" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <h1 id="hero-title" class="hero-title">Conectando quem tem com quem precisa</h1>
+          <p class="text-body-lg hero-subtitle">Somos a ponte entre restaurantes, supermercados e instituições sociais.</p>
+          <div class="hero-actions">
+            <a class="button button-secondary" href="login.html" aria-label="Transforme seu excedente em impacto agora">Transforme seu Excedente em Impacto Agora</a>
+            <a class="button button-ghost" href="login.html" aria-label="Solicite alimentos para sua instituição">Solicite Alimentos para sua Instituição</a>
+          </div>
+        </div>
+        <div class="hero-visual" role="img" aria-label="Placeholder de ilustração da plataforma Alimente">[ Ilustração ]</div>
+      </div>
+    </section>
+
+    <section id="quem-somos" class="section" aria-labelledby="quem-somos-titulo">
+      <div class="container who-grid">
+        <div class="who-image" role="img" aria-label="Imagem institucional do Alimente"></div>
+        <div>
+          <h2 id="quem-somos-titulo" class="section-title">Quem Somos</h2>
+          <p class="text-body-lg">No Brasil, a fome não é um problema de produção, mas de distribuição ineficiente. O Alimente nasce para ser a ponte tecnológica entre quem tem excedente e quem precisa de auxílio. Nossa missão é digitalizar e otimizar a cadeia de doação, conectando restaurantes, supermercados e feiras diretamente a ONGs e cozinhas comunitárias. Transformamos o desperdício em solidariedade através de uma plataforma ágil, rastreável e focada no Objetivo de Desenvolvimento Sustentável 2 (Fome Zero) da ONU.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section how full-bleed" aria-labelledby="como-funciona-titulo">
+      <div class="container">
+        <h2 id="como-funciona-titulo" class="section-title">Como Funciona o Alimente</h2>
+        <div class="cards">
+          <article class="card">
+            <h3 class="card-title">Cadastro e Validação</h3>
+            <p class="text-body-md">Doadores e receptores criam perfis geolocalizados. Toda entidade receptora passa por validação documental obrigatória (CNPJ e registro social) antes de visualizar ofertas.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title">Publicação e Agendamento</h3>
+            <p class="text-body-md">O doador cadastra o alimento com descrição, quantidade e validade. ONGs próximas visualizam a oferta em mapa interativo e agendam a retirada diretamente pelo sistema.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title">Entrega e Impacto</h3>
+            <p class="text-body-md">Após a retirada, o receptor confirma o recebimento. O sistema atualiza o Painel de Impacto com indicadores reais: quilos salvos e famílias beneficiadas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq" aria-labelledby="faq-titulo">
+      <div class="container">
+        <h2 id="faq-titulo" class="section-title">Perguntas Frequentes</h2>
+        <div class="faq-list" role="region" aria-label="Perguntas frequentes do Alimente">
+          <article class="faq-item open">
+            <h3>
+              <button class="faq-question" aria-expanded="true" aria-controls="faq-answer-1" id="faq-question-1">
+                <span>A doação de alimentos é segura?</span>
+                <span class="faq-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
+              <p class="text-body-md">Sim. Exigimos que todo doador informe a data de validade e descrição detalhada do estado do alimento. O sistema conta com avaliação mútua após cada transação para garantir os padrões de qualidade e segurança alimentar.</p>
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <h3>
+              <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2" id="faq-question-2">
+                <span>Qualquer pessoa pode retirar as doações?</span>
+                <span class="faq-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2">
+              <p class="text-body-md">Não. Apenas entidades de assistência social (ONGs, bancos de alimentos) com CNPJ ativo e documentação validada podem atuar como receptores, evitando desvio ou revenda ilegal dos alimentos.</p>
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <h3>
+              <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3" id="faq-question-3">
+                <span>Quem é responsável pelo transporte?</span>
+                <span class="faq-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3">
+              <p class="text-body-md">O doador define local e horário de retirada. A ONG interessada, ao agendar, assume o compromisso da coleta dentro da janela estipulada, com rota otimizada por geolocalização.</p>
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <h3>
+              <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4" id="faq-question-4">
+                <span>Como meus dados são protegidos?</span>
+                <span class="faq-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </h3>
+            <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4">
+              <p class="text-body-md">O Alimente segue protocolos de segurança para proteger informações sensíveis e documentos fiscais, garantindo que perfis e histórico de doações estejam em conformidade com as necessidades de privacidade das instituições.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>  </main>
+
+  <footer id="footer" class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-square" role="img" aria-label="Placeholder da logo Alimente"></span>
+          <span>Alimente</span>
+        </div>
+        <p class="footer-tagline">Transformando excedente em solidariedade.</p>
+      </div>
+
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="#quem-somos">Quem Somos</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div>
+        <p class="footer-legal">© 2025 Alimente. Todos os direitos reservados.</p>
+        <div class="footer-legal-links">
+          <a href="#">Política de Privacidade</a>
+          <a href="#">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const items = Array.from(document.querySelectorAll('.faq-item'));
+
+      function closeAll() {
+        items.forEach((item) => {
+          item.classList.remove('open');
+          const button = item.querySelector('.faq-question');
+          if (button) {
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      items.forEach((item) => {
+        const button = item.querySelector('.faq-question');
+        if (!button) return;
+
+        button.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+          closeAll();
+          if (!isOpen) {
+            item.classList.add('open');
+            button.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Histórico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+          colors: {
+            alimente: {
+              black: "#1A1A1A",
+              yellow: "#FFD700",
+              white: "#FFFFFF",
+            },
+          },
+          boxShadow: {
+            glass: "0 8px 30px rgba(0,0,0,0.10)",
+            soft: "0 2px 12px rgba(0,0,0,0.08)",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-alimente-black font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <!-- SIDEBAR START -->
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-alimente-black text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Dashboard do Doador</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navegação principal">
+        <a href="dashboardDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Dashboard</span>
+        </a>
+        <a href="minhasDoacoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="hand-heart" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Minhas Doações</span>
+        </a>
+        <a href="historico.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all duration-300">
+          <i data-lucide="history" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Histórico</span>
+        </a>
+        <a href="desempenhoDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="bar-chart-3" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Desempenho</span>
+        </a>
+        <a href="perfil.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="store" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Perfil</span>
+        </a>
+        <a href="configuracoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="settings" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Configurações</span>
+        </a>
+      </nav>
+
+      <div data-sidebar-panel class="mt-auto rounded-3xl border border-white/15 bg-white/5 p-4">
+        <p class="text-sm text-white/75">Status do perfil</p>
+        <div class="mt-2 flex items-center gap-2 text-[#FFD700] font-semibold">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          Visível para ONGs próximas
+        </div>
+      </div>
+    </aside>
+    <!-- SIDEBAR END -->
+
+    <main id="mainContent" class="min-w-0 flex-1 bg-[#F9FAFB] p-4 pb-28 transition-all duration-300 md:p-8 md:pb-8">
+      <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-sm font-medium text-neutral-500">Relatórios e auditoria</p>
+          <h1 class="text-2xl font-extrabold md:text-3xl">Histórico</h1>
+        </div>
+        <button id="exportReportBtn" type="button" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#FFD700] px-6 py-3 font-bold text-[#1A1A1A] shadow-md transition hover:-translate-y-0.5 hover:bg-[#f2c600] hover:shadow-xl">
+          <i data-lucide="download" class="h-5 w-5"></i>
+          Exportar Relatório
+        </button>
+      </header>
+
+      <section class="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-[1.35fr_0.65fr]">
+        <div class="rounded-3xl border border-neutral-200 bg-white p-4 shadow-soft md:p-5">
+          <div class="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1fr_1.3fr]">
+            <label>
+              <span class="mb-2 block text-sm font-bold text-neutral-700">Início</span>
+              <input id="startDate" type="date" value="2026-04-01" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+            </label>
+            <label>
+              <span class="mb-2 block text-sm font-bold text-neutral-700">Fim</span>
+              <input id="endDate" type="date" value="2026-04-30" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+            </label>
+            <label>
+              <span class="mb-2 block text-sm font-bold text-neutral-700">Busca</span>
+              <span class="relative block">
+                <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400"></i>
+                <input id="historySearch" type="search" placeholder="Alimento ou instituição receptora" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] py-3 pl-12 pr-4 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-1">
+          <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">Total do Período</p>
+                <p class="mt-2 text-3xl font-extrabold">450kg</p>
+              </div>
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 text-neutral-800">
+                <i data-lucide="scale" class="h-6 w-6"></i>
+              </div>
+            </div>
+            <p class="mt-2 text-sm text-neutral-600">doados neste mês</p>
+          </article>
+
+          <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">Instituições Apoiadas</p>
+                <p class="mt-2 text-3xl font-extrabold">08</p>
+              </div>
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                <i data-lucide="building-2" class="h-6 w-6"></i>
+              </div>
+            </div>
+            <p class="mt-2 text-sm text-neutral-600">ONGs diferentes</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="mt-5 rounded-3xl border border-neutral-200 bg-white shadow-soft">
+        <div class="flex flex-col gap-2 border-b border-neutral-100 p-5 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-xl font-extrabold">Registros de Coleta</h2>
+            <p class="text-sm text-neutral-500">Histórico validado para acompanhamento e prestação de contas.</p>
+          </div>
+          <span id="resultCount" class="text-sm font-semibold text-neutral-500">5 registros</span>
+        </div>
+
+        <div class="hidden overflow-x-auto md:block">
+          <table class="w-full min-w-[820px] text-left">
+            <thead>
+              <tr class="border-b border-neutral-100 text-sm text-neutral-500">
+                <th class="px-5 py-4 font-bold">Data da Coleta</th>
+                <th class="px-5 py-4 font-bold">Alimento</th>
+                <th class="px-5 py-4 font-bold">Quantidade</th>
+                <th class="px-5 py-4 font-bold">Instituição Receptora</th>
+                <th class="px-5 py-4 font-bold">Status Final</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable">
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluído">
+                <td class="px-5 py-5 text-sm font-semibold text-neutral-700">28/04/2026</td>
+                <td class="px-5 py-5">
+                  <p class="font-bold">Legumes Frescos</p>
+                  <p class="text-sm text-neutral-500">Hortifruti</p>
+                </td>
+                <td class="px-5 py-5 font-bold">54 kg</td>
+                <td class="px-5 py-5 text-neutral-700">Instituto Mesa Cheia</td>
+                <td class="px-5 py-5">
+                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                </td>
+              </tr>
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluído">
+                <td class="px-5 py-5 text-sm font-semibold text-neutral-700">24/04/2026</td>
+                <td class="px-5 py-5">
+                  <p class="font-bold">Cesta de Frutas</p>
+                  <p class="text-sm text-neutral-500">Hortifruti</p>
+                </td>
+                <td class="px-5 py-5 font-bold">38 kg</td>
+                <td class="px-5 py-5 text-neutral-700">ONG Viva Bem</td>
+                <td class="px-5 py-5">
+                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                </td>
+              </tr>
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-19" data-search="pães integrais casa esperança cancelado">
+                <td class="px-5 py-5 text-sm font-semibold text-neutral-700">19/04/2026</td>
+                <td class="px-5 py-5">
+                  <p class="font-bold">Pães Integrais</p>
+                  <p class="text-sm text-neutral-500">Padaria</p>
+                </td>
+                <td class="px-5 py-5 font-bold">22 kg</td>
+                <td class="px-5 py-5 text-neutral-700">Casa Esperança</td>
+                <td class="px-5 py-5">
+                  <span class="inline-flex rounded-full bg-rose-100 px-3 py-1.5 text-xs font-bold text-rose-700">Cancelado</span>
+                </td>
+              </tr>
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidária concluído">
+                <td class="px-5 py-5 text-sm font-semibold text-neutral-700">12/04/2026</td>
+                <td class="px-5 py-5">
+                  <p class="font-bold">Iogurtes Naturais</p>
+                  <p class="text-sm text-neutral-500">Laticínios</p>
+                </td>
+                <td class="px-5 py-5 font-bold">60 un.</td>
+                <td class="px-5 py-5 text-neutral-700">Cozinha Solidária</td>
+                <td class="px-5 py-5">
+                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                </td>
+              </tr>
+              <tr class="history-row-table transition hover:bg-yellow-50/50" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluído">
+                <td class="px-5 py-5 text-sm font-semibold text-neutral-700">29/03/2026</td>
+                <td class="px-5 py-5">
+                  <p class="font-bold">Arroz Embalado</p>
+                  <p class="text-sm text-neutral-500">Mercearia</p>
+                </td>
+                <td class="px-5 py-5 font-bold">120 kg</td>
+                <td class="px-5 py-5 text-neutral-700">Rede Alimento Justo</td>
+                <td class="px-5 py-5">
+                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="historyCards" class="grid grid-cols-1 gap-3 p-4 md:hidden">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluído">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">28/04/2026</p>
+                <h3 class="mt-1 font-extrabold">Legumes Frescos</h3>
+              </div>
+              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>54 kg</strong></p>
+              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Instituto Mesa Cheia</strong></p>
+            </div>
+          </article>
+
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluído">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">24/04/2026</p>
+                <h3 class="mt-1 font-extrabold">Cesta de Frutas</h3>
+              </div>
+              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>38 kg</strong></p>
+              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>ONG Viva Bem</strong></p>
+            </div>
+          </article>
+
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-19" data-search="pães integrais casa esperança cancelado">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">19/04/2026</p>
+                <h3 class="mt-1 font-extrabold">Pães Integrais</h3>
+              </div>
+              <span class="rounded-full bg-rose-100 px-3 py-1.5 text-xs font-bold text-rose-700">Cancelado</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>22 kg</strong></p>
+              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Casa Esperança</strong></p>
+            </div>
+          </article>
+
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidária concluído">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">12/04/2026</p>
+                <h3 class="mt-1 font-extrabold">Iogurtes Naturais</h3>
+              </div>
+              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>60 un.</strong></p>
+              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Cozinha Solidária</strong></p>
+            </div>
+          </article>
+
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluído">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-neutral-500">29/03/2026</p>
+                <h3 class="mt-1 font-extrabold">Arroz Embalado</h3>
+              </div>
+              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>120 kg</strong></p>
+              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Rede Alimento Justo</strong></p>
+            </div>
+          </article>
+        </div>
+
+        <div id="emptyState" class="hidden p-8 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-yellow-100">
+            <i data-lucide="calendar-x" class="h-7 w-7 text-neutral-800"></i>
+          </div>
+          <h2 class="mt-4 text-xl font-extrabold">Nenhum registro encontrado para estas datas</h2>
+          <p class="mt-2 text-sm text-neutral-600">Ajuste o período ou tente buscar por outra instituição.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="fixed bottom-0 inset-x-0 z-30 border-t border-white/10 bg-[#1A1A1A] md:hidden">
+    <ul class="grid grid-cols-6">
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="dashboardDoador.html"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Início</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="minhasDoacoes.html"><i data-lucide="hand-heart" class="h-4 w-4"></i>Doações</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] font-semibold text-[#FFD700]" href="historico.html"><i data-lucide="history" class="h-4 w-4"></i>Hist.</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="desempenhoDoador.html"><i data-lucide="bar-chart-3" class="h-4 w-4"></i>Dados</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="perfil.html"><i data-lucide="store" class="h-4 w-4"></i>Perfil</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="configuracoes.html"><i data-lucide="settings" class="h-4 w-4"></i>Ajustes</a></li>
+    </ul>
+  </nav>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+    const sidebarPanel = document.querySelector("[data-sidebar-panel]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebarToggle.setAttribute("aria-label", isCollapsed ? "Expandir sidebar" : "Recolher sidebar");
+
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+
+      sidebarLabels.forEach((label) => {
+        label.classList.toggle("hidden", isCollapsed);
+      });
+
+      sidebarPanel.classList.toggle("hidden", isCollapsed);
+      sidebarToggle.innerHTML = isCollapsed
+        ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>'
+        : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    const startDate = document.getElementById("startDate");
+    const endDate = document.getElementById("endDate");
+    const historySearch = document.getElementById("historySearch");
+    const historyTableRows = document.querySelectorAll(".history-row-table");
+    const historyCardRows = document.querySelectorAll(".history-row-card");
+    const historyRows = [...historyTableRows, ...historyCardRows];
+    const emptyState = document.getElementById("emptyState");
+    const resultCount = document.getElementById("resultCount");
+
+    function filterHistory() {
+      const query = historySearch.value.trim().toLowerCase();
+      const start = startDate.value;
+      const end = endDate.value;
+      let visibleRecords = 0;
+
+      historyRows.forEach((row) => {
+        const rowDate = row.dataset.date;
+        const matchesDate = (!start || rowDate >= start) && (!end || rowDate <= end);
+        const matchesSearch = row.dataset.search.includes(query);
+        const shouldShow = matchesDate && matchesSearch;
+
+        row.classList.toggle("hidden", !shouldShow);
+        if (shouldShow && row.classList.contains("history-row-table")) visibleRecords += 1;
+      });
+
+      emptyState.classList.toggle("hidden", visibleRecords > 0);
+      resultCount.textContent = `${visibleRecords} ${visibleRecords === 1 ? "registro" : "registros"}`;
+    }
+
+    [startDate, endDate, historySearch].forEach((input) => {
+      input.addEventListener("input", filterHistory);
+    });
+
+    document.getElementById("exportReportBtn").addEventListener("click", () => {
+      alert("Relatório de impacto exportado com sucesso.");
+    });
+
+    filterHistory();
+  </script>
+  <script src="dashboard-theme.js"></script>
+</body>
+</html>

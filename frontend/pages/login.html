@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alimente | Entrar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+  <main>
+    <section id="login" class="login-section full-bleed" aria-labelledby="login-titulo">
+      <div class="container">
+        <div class="login-shell">
+          <aside class="login-inspire" aria-label="Painel inspiracional">
+            <div class="login-inspire-card">
+              <p class="login-inspire-text">Sua presença faz a diferença. Vamos transformar o excedente em impacto?</p>
+            </div>
+          </aside>
+
+          <div class="login-panel">
+            <div class="login-form-wrap">
+              <div>
+                <h2 id="login-titulo" class="login-title">Entrar no Alimente</h2>
+                <form class="login-form" id="login-form" action="#" method="post" novalidate>
+                  <div class="login-fields">
+                    <label class="sr-only" for="email">Email</label>
+                    <input class="login-input" type="email" id="email" name="email" placeholder="Email" autocomplete="email" required>
+                    <label class="sr-only" for="senha">Senha</label>
+                    <div class="login-password-wrap">
+                      <input class="login-input" type="password" id="senha" name="senha" placeholder="Senha" autocomplete="current-password" required>
+                      <button class="login-password-toggle" type="button" id="toggle-senha" aria-controls="senha" aria-label="Mostrar senha">Mostrar</button>
+                    </div>
+                  </div>
+                  <button class="login-submit" type="submit">Entrar</button>
+                  <p class="login-create">Não tem conta? <a href="#">Criar conta</a></p>
+                </form>
+                <p class="login-forgot is-hidden" id="login-forgot"><a href="#">Esqueci minha senha</a></p>
+              </div>
+              <p class="login-terms">Ao continuar, você concorda com a <a href="#">Política de Privacidade</a> e os <a href="#">Termos de Uso</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var loginForm = document.getElementById('login-form');
+      var emailInput = document.getElementById('email');
+      var senhaInput = document.getElementById('senha');
+      var toggleSenhaBtn = document.getElementById('toggle-senha');
+      var forgotSenha = document.getElementById('login-forgot');
+
+      if (senhaInput && toggleSenhaBtn) {
+        toggleSenhaBtn.addEventListener('click', function () {
+          var isPassword = senhaInput.type === 'password';
+          senhaInput.type = isPassword ? 'text' : 'password';
+          toggleSenhaBtn.textContent = isPassword ? 'Ocultar' : 'Mostrar';
+          toggleSenhaBtn.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+        });
+      }
+
+      if (loginForm && emailInput && senhaInput && forgotSenha) {
+        loginForm.addEventListener('submit', function (event) {
+          var emailOk = emailInput.checkValidity();
+          var senhaOk = senhaInput.value.trim().length > 0;
+          var loginValido = emailOk && senhaOk;
+
+          if (!loginValido) {
+            event.preventDefault();
+            forgotSenha.classList.remove('is-hidden');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
