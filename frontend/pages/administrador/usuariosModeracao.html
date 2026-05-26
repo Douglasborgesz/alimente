@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Usuários & Moderação (Admin)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) document.documentElement.classList.add("dark");
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "sans-serif"] },
+          boxShadow: { soft: "0 2px 12px rgba(0,0,0,0.08)" },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Backoffice Admin</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <nav class="space-y-2">
+        <a href="dashboardAdmin.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all"><i data-lucide="layout-dashboard" class="h-5 w-5"></i><span data-sidebar-label>Visão Geral</span></a>
+        <a href="validacaoEntidades.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all"><i data-lucide="badge-check" class="h-5 w-5"></i><span data-sidebar-label>Validação de Entidades</span></a>
+        <a href="usuariosModeracao.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all"><i data-lucide="users" class="h-5 w-5"></i><span data-sidebar-label>Usuários &amp; Moderação</span></a>
+        <a href="rastreabilidade.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all"><i data-lucide="route" class="h-5 w-5"></i><span data-sidebar-label>Rastreabilidade</span></a>
+        <a href="relatoriosAuditoria.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all"><i data-lucide="file-bar-chart" class="h-5 w-5"></i><span data-sidebar-label>Relatórios</span></a>
+      </nav>
+    </aside>
+
+    <main class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8">
+      <header>
+        <p class="text-sm text-neutral-500">Governança, Risco e Compliance</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Controle de Usuários e Denúncias</h2>
+      </header>
+
+      <section class="mt-6 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+        <div class="relative">
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400"></i>
+          <input id="searchInput" type="text" placeholder="Buscar por nome, CNPJ ou ID da denúncia..." class="w-full rounded-full border border-neutral-200 bg-neutral-50 py-3 pl-12 pr-4 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2" id="chips">
+          <button class="chip rounded-full px-4 py-2 text-sm font-semibold bg-[#FFD700] text-[#1A1A1A]" data-filter="all">Todos</button>
+          <button class="chip rounded-full px-4 py-2 text-sm font-semibold bg-neutral-100 text-neutral-700 hover:bg-neutral-200" data-filter="doador">Doadores</button>
+          <button class="chip rounded-full px-4 py-2 text-sm font-semibold bg-neutral-100 text-neutral-700 hover:bg-neutral-200" data-filter="receptor">Receptores</button>
+          <button class="chip rounded-full px-4 py-2 text-sm font-semibold bg-neutral-100 text-neutral-700 hover:bg-neutral-200" data-filter="denuncia">Com Denúncias Abertas</button>
+          <button class="chip rounded-full px-4 py-2 text-sm font-semibold bg-neutral-100 text-neutral-700 hover:bg-neutral-200" data-filter="suspenso">Suspensos</button>
+        </div>
+      </section>
+
+      <section class="mt-6 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+        <div class="overflow-x-auto">
+          <table class="min-w-[900px] w-full text-sm">
+            <thead>
+              <tr class="border-b border-neutral-200 text-neutral-500">
+                <th class="py-3 text-left font-semibold">Nome / Razão Social</th>
+                <th class="py-3 text-left font-semibold">Tipo</th>
+                <th class="py-3 text-left font-semibold">Status</th>
+                <th class="py-3 text-left font-semibold">Risco / Denúncias</th>
+              </tr>
+            </thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <aside id="drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-xl translate-x-full bg-white shadow-2xl transition-transform duration-300">
+    <div class="h-full flex flex-col">
+      <div class="border-b border-neutral-200 p-5 flex items-center justify-between">
+        <div>
+          <h3 id="dName" class="text-xl font-bold"></h3>
+          <p id="dMeta" class="text-sm text-neutral-500"></p>
+        </div>
+        <button id="closeDrawer" class="rounded-full p-2 hover:bg-neutral-100"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <section>
+          <h4 class="text-sm font-bold uppercase tracking-wide text-neutral-500">Histórico de Denúncias</h4>
+          <div id="dReports" class="mt-3 max-h-48 overflow-y-auto space-y-2"></div>
+          <label class="mt-3 block text-sm font-semibold">Anotação do administrador</label>
+          <textarea class="mt-1 w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" rows="3" placeholder="Registrar análise e evidências..."></textarea>
+        </section>
+        <section class="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+          <h4 class="text-sm font-bold uppercase tracking-wide text-neutral-500">Conformidade LGPD</h4>
+          <p id="dConsent1" class="mt-2 text-sm"></p>
+          <p id="dConsent2" class="mt-1 text-sm"></p>
+        </section>
+      </div>
+      <div class="border-t border-neutral-200 p-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <button class="action-btn rounded-xl border border-[#FFD700] text-[#1A1A1A] bg-[#fffdf2] px-3 py-2 text-sm font-semibold hover:bg-[#fff7cc]" data-action="advertencia">Aplicar Advertência</button>
+        <button class="action-btn rounded-xl border border-rose-300 text-rose-700 bg-white px-3 py-2 text-sm font-semibold hover:bg-rose-50" data-action="suspender">Suspender Conta</button>
+        <button class="action-btn rounded-xl bg-rose-600 text-white px-3 py-2 text-sm font-semibold hover:bg-rose-700" data-action="banir">Banir Usuário</button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 z-40 hidden bg-black/35"></div>
+
+  <div id="justModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/45 p-4">
+    <div class="w-full max-w-lg rounded-3xl bg-white p-5 shadow-xl">
+      <h4 id="justTitle" class="text-lg font-bold">Confirmar ação</h4>
+      <p class="mt-1 text-sm text-neutral-500">Informe a justificativa para rastreabilidade.</p>
+      <textarea id="justText" class="mt-3 w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" rows="4" placeholder="Descreva o motivo da ação..."></textarea>
+      <div class="mt-4 flex justify-end gap-2">
+        <button id="cancelJust" class="rounded-xl border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-100">Cancelar</button>
+        <button id="confirmJust" class="rounded-xl bg-[#FFD700] px-4 py-2 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600]">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    const users = [
+      {id:"DEN-402", nome:"Padaria Sol Nascente", cnpj:"11.222.333/0001-44", tipo:"doador", status:"Ativo", denuncias:2, risco:"alto", reports:["Alimento entregue em mau estado (22/05)","Atraso recorrente de coleta (19/05)"], lgpd1:"Termos de Uso aceitos em 12/01/2026", lgpd2:"Política de Privacidade aceita em 12/01/2026"},
+      {id:"USR-119", nome:"Instituto Esperança", cnpj:"12.345.678/0001-99", tipo:"receptor", status:"Em Análise", denuncias:0, risco:"medio", reports:["Sem denúncias abertas"], lgpd1:"Termos de Uso aceitos em 02/02/2026", lgpd2:"Política de Privacidade aceita em 02/02/2026"},
+      {id:"DEN-551", nome:"Mercado Central", cnpj:"99.111.222/0001-77", tipo:"doador", status:"Suspenso", denuncias:3, risco:"alto", reports:["Não compareceu para coleta (23/05)","Denúncia de lote vencido (21/05)","Recusa de auditoria local (18/05)"], lgpd1:"Termos de Uso aceitos em 18/12/2025", lgpd2:"Política de Privacidade aceita em 18/12/2025"},
+      {id:"USR-202", nome:"ONG Mãos Solidárias", cnpj:"45.000.789/0001-00", tipo:"receptor", status:"Ativo", denuncias:1, risco:"medio", reports:["Registro de divergência de peso na retirada (20/05)"], lgpd1:"Termos de Uso aceitos em 09/03/2026", lgpd2:"Política de Privacidade aceita em 09/03/2026"}
+    ];
+
+    let activeFilter = "all";
+    let activeUser = null;
+    let pendingAction = null;
+
+    const table = document.getElementById("usersTable");
+    const searchInput = document.getElementById("searchInput");
+    const chips = document.querySelectorAll(".chip");
+
+    function badgeStatus(status){
+      if(status === "Ativo") return "bg-yellow-100 text-yellow-800";
+      if(status === "Suspenso") return "bg-rose-100 text-rose-700";
+      return "bg-yellow-100 text-yellow-800";
+    }
+
+    function filteredUsers(){
+      const q = searchInput.value.toLowerCase().trim();
+      return users.filter(u => {
+        const matchQ = !q || `${u.nome} ${u.cnpj} ${u.id}`.toLowerCase().includes(q);
+        let matchF = true;
+        if(activeFilter === "doador") matchF = u.tipo === "doador";
+        if(activeFilter === "receptor") matchF = u.tipo === "receptor";
+        if(activeFilter === "denuncia") matchF = u.denuncias > 0;
+        if(activeFilter === "suspenso") matchF = u.status === "Suspenso";
+        return matchQ && matchF;
+      });
+    }
+
+    function renderTable(){
+      const list = filteredUsers();
+      table.innerHTML = list.map(u => `
+        <tr class="border-b border-neutral-100 hover:bg-neutral-50 transition cursor-pointer user-row" data-id="${u.id}">
+          <td class="py-3">
+            <p class="font-semibold">${u.nome}</p>
+            <p class="text-xs text-neutral-500">${u.cnpj} • ${u.id}</p>
+          </td>
+          <td class="py-3">${u.tipo === "doador" ? "Doador" : "Receptor"}</td>
+          <td class="py-3"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${badgeStatus(u.status)}">${u.status}</span></td>
+          <td class="py-3">
+            <div class="inline-flex items-center gap-2 ${u.denuncias>0 ? "text-rose-700" : "text-neutral-500"}">
+              <i data-lucide="${u.denuncias>0 ? "alert-triangle" : "shield-check"}" class="h-4 w-4"></i>
+              <span class="text-xs font-semibold">${u.denuncias>0 ? u.denuncias+" denúncias" : "Sem alertas"}</span>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+
+      document.querySelectorAll(".user-row").forEach(row => {
+        row.addEventListener("click", () => openDrawer(row.dataset.id));
+      });
+      lucide.createIcons();
+    }
+
+    const drawer = document.getElementById("drawer");
+    const overlay = document.getElementById("overlay");
+    const dName = document.getElementById("dName");
+    const dMeta = document.getElementById("dMeta");
+    const dReports = document.getElementById("dReports");
+    const dConsent1 = document.getElementById("dConsent1");
+    const dConsent2 = document.getElementById("dConsent2");
+
+    function openDrawer(id){
+      activeUser = users.find(u => u.id === id);
+      if(!activeUser) return;
+      dName.textContent = activeUser.nome;
+      dMeta.textContent = `${activeUser.tipo === "doador" ? "Doador" : "Receptor"} • ${activeUser.id}`;
+      dReports.innerHTML = activeUser.reports.map(r => `<div class="rounded-xl border border-neutral-200 bg-white p-2 text-sm">${r}</div>`).join("");
+      dConsent1.textContent = activeUser.lgpd1;
+      dConsent2.textContent = activeUser.lgpd2;
+      drawer.classList.remove("translate-x-full");
+      overlay.classList.remove("hidden");
+    }
+
+    function closeDrawer(){
+      drawer.classList.add("translate-x-full");
+      overlay.classList.add("hidden");
+    }
+
+    document.getElementById("closeDrawer").addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", closeDrawer);
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("bg-[#FFD700]","text-[#1A1A1A]"));
+        chips.forEach(c => c.classList.add("bg-neutral-100","text-neutral-700"));
+        chip.classList.add("bg-[#FFD700]","text-[#1A1A1A]");
+        chip.classList.remove("bg-neutral-100","text-neutral-700");
+        activeFilter = chip.dataset.filter;
+        renderTable();
+      });
+    });
+
+    searchInput.addEventListener("input", renderTable);
+
+    const justModal = document.getElementById("justModal");
+    const justTitle = document.getElementById("justTitle");
+    const justText = document.getElementById("justText");
+
+    document.querySelectorAll(".action-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        pendingAction = btn.dataset.action;
+        const label = pendingAction === "advertencia" ? "Aplicar Advertência" : pendingAction === "suspender" ? "Suspender Conta" : "Banir Usuário";
+        justTitle.textContent = `${label} - ${activeUser ? activeUser.nome : "Usuário"}`;
+        justText.value = "";
+        justModal.classList.remove("hidden");
+        justModal.classList.add("flex");
+      });
+    });
+
+    function closeJust(){
+      justModal.classList.add("hidden");
+      justModal.classList.remove("flex");
+    }
+
+    document.getElementById("cancelJust").addEventListener("click", closeJust);
+    document.getElementById("confirmJust").addEventListener("click", () => {
+      if(!justText.value.trim()) return;
+      closeJust();
+    });
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+      sidebarLabels.forEach((label) => label.classList.toggle("hidden", isCollapsed));
+      sidebarToggle.innerHTML = isCollapsed ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>' : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    lucide.createIcons();
+    renderTable();
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+

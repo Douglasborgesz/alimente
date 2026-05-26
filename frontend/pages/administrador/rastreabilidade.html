@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Rastreabilidade & Logística (Admin)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) document.documentElement.classList.add("dark");
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "sans-serif"] },
+          boxShadow: { soft: "0 2px 12px rgba(0,0,0,0.08)" },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Backoffice Admin</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <nav class="space-y-2">
+        <a href="dashboardAdmin.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="layout-dashboard" class="h-5 w-5"></i><span data-sidebar-label>Visão Geral</span></a>
+        <a href="validacaoEntidades.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="badge-check" class="h-5 w-5"></i><span data-sidebar-label>Validação de Entidades</span></a>
+        <a href="usuariosModeracao.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="users" class="h-5 w-5"></i><span data-sidebar-label>Usuários &amp; Moderação</span></a>
+        <a href="rastreabilidade.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold"><i data-lucide="route" class="h-5 w-5"></i><span data-sidebar-label>Rastreabilidade</span></a>
+        <a href="relatoriosAuditoria.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="file-bar-chart" class="h-5 w-5"></i><span data-sidebar-label>Relatórios</span></a>
+      </nav>
+    </aside>
+
+    <main class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8">
+      <header>
+        <p class="text-sm text-neutral-500">Monitoramento de operação</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Auditoria de Lotes e Logística</h2>
+      </header>
+
+      <section class="mt-6 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+        <div class="flex flex-col md:flex-row gap-2">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400"></i>
+            <input id="searchInput" type="text" placeholder="Buscar por ID do Lote ou Token" class="w-full rounded-full border border-neutral-200 bg-neutral-50 py-3 pl-12 pr-4 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+          </div>
+          <select id="dateFilter" class="rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100">
+            <option value="all">Período: Todos</option>
+            <option value="today">Hoje</option>
+            <option value="7days">Últimos 7 dias</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5"><p class="text-sm text-neutral-500">Disponíveis</p><p id="mDisponiveis" class="mt-2 text-3xl font-extrabold">0</p></article>
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5"><p class="text-sm text-neutral-500">Reservados</p><p id="mReservados" class="mt-2 text-3xl font-extrabold">0</p><p class="text-xs font-semibold text-yellow-700">Atenção aos prazos curtos</p></article>
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5"><p class="text-sm text-neutral-500">Entregues (Hoje)</p><p id="mEntregues" class="mt-2 text-3xl font-extrabold">0</p></article>
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5"><p class="text-sm text-neutral-500">Expirados/Cancelados</p><p id="mExpirados" class="mt-2 text-3xl font-extrabold">0</p></article>
+      </section>
+
+      <section class="mt-6 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+        <div class="overflow-x-auto">
+          <table class="min-w-[980px] w-full text-sm">
+            <thead>
+              <tr class="border-b border-neutral-200 text-neutral-500">
+                <th class="py-3 text-left font-semibold">ID do Lote</th>
+                <th class="py-3 text-left font-semibold">Doador (Origem)</th>
+                <th class="py-3 text-left font-semibold">Receptor (Destino)</th>
+                <th class="py-3 text-left font-semibold">Item / Qtd</th>
+                <th class="py-3 text-left font-semibold">Status Atual</th>
+                <th class="py-3 text-left font-semibold">Validação</th>
+              </tr>
+            </thead>
+            <tbody id="lotsTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="lotModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/45 p-4">
+    <div class="w-full max-w-3xl rounded-3xl bg-white p-5 shadow-xl">
+      <div class="flex items-center justify-between">
+        <h3 id="lotTitle" class="text-xl font-bold">Timeline do Lote</h3>
+        <button id="closeLotModal" class="rounded-full p-2 hover:bg-neutral-100"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+      <div id="timeline" class="mt-4 space-y-3"></div>
+      <div class="mt-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+        <button class="rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-100">Visualizar Recibo de Doação</button>
+      </div>
+      <div class="mt-4 flex flex-col sm:flex-row gap-2 justify-end">
+        <button class="rounded-xl border border-rose-300 bg-white px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-50">Cancelar Reserva</button>
+        <button class="rounded-xl bg-[#FFD700] px-4 py-2 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600]">Forçar Conclusão</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    const lots = [
+      {id:"LOT-8821", doador:"Supermercado Vida", receptor:"Instituto Esperança", item:"Hortifruti - 15kg", status:"Reservado", token:"TK-8291", dueHours:2, day:"today", timeline:["Cadastro da Doação: 26/05/2026 08:10","Reserva efetuada pela ONG: 26/05/2026 08:34","Confirmação via Token: Pendente"]},
+      {id:"LOT-8807", doador:"Padaria Santa Clara", receptor:"ONG Mãos Solidárias", item:"Pães - 22kg", status:"Disponível", token:"Pendente", dueHours:6, day:"today", timeline:["Cadastro da Doação: 26/05/2026 07:55","Reserva efetuada pela ONG: Pendente","Confirmação via Token: Pendente"]},
+      {id:"LOT-8770", doador:"Mercado Central", receptor:"Instituto Esperança", item:"Arroz e Feijão - 40kg", status:"Entregue", token:"TK-7710", dueHours:0, day:"today", timeline:["Cadastro da Doação: 25/05/2026 11:20","Reserva efetuada pela ONG: 25/05/2026 11:50","Confirmação de Entrega via Token: 25/05/2026 14:03 (TK-7710)"]},
+      {id:"LOT-8742", doador:"Restaurante Bom Prato", receptor:"-", item:"Refeições prontas - 18kg", status:"Expirado", token:"Pendente", dueHours:0, day:"7days", timeline:["Cadastro da Doação: 23/05/2026 09:05","Reserva efetuada pela ONG: Pendente","Expirado sem coleta: 23/05/2026 15:00"]}
+    ];
+
+    function statusBadge(status){
+      if(status === "Disponível") return "bg-blue-100 text-blue-700";
+      if(status === "Reservado") return "bg-yellow-100 text-yellow-800";
+      if(status === "Entregue") return "bg-yellow-100 text-yellow-800";
+      return "bg-rose-100 text-rose-700";
+    }
+
+    const lotsTable = document.getElementById("lotsTable");
+    const searchInput = document.getElementById("searchInput");
+    const dateFilter = document.getElementById("dateFilter");
+
+    function filteredLots(){
+      const q = searchInput.value.toLowerCase().trim();
+      return lots
+        .filter(l => (dateFilter.value === "all" || l.day === dateFilter.value) && (!q || `${l.id} ${l.token}`.toLowerCase().includes(q)))
+        .sort((a,b) => {
+          const pa = a.status === "Reservado" ? 0 : 1;
+          const pb = b.status === "Reservado" ? 0 : 1;
+          if(pa !== pb) return pa - pb;
+          return a.dueHours - b.dueHours;
+        });
+    }
+
+    function renderMetrics(list){
+      document.getElementById("mDisponiveis").textContent = list.filter(x => x.status === "Disponível").length;
+      document.getElementById("mReservados").textContent = list.filter(x => x.status === "Reservado").length;
+      document.getElementById("mEntregues").textContent = list.filter(x => x.status === "Entregue").length;
+      document.getElementById("mExpirados").textContent = list.filter(x => x.status === "Expirado").length;
+    }
+
+    function renderTable(){
+      const list = filteredLots();
+      renderMetrics(list);
+      lotsTable.innerHTML = list.map(l => `
+        <tr class="lot-row border-b border-neutral-100 hover:bg-neutral-50 transition cursor-pointer" data-id="${l.id}">
+          <td class="py-3 font-semibold">${l.id}</td>
+          <td class="py-3">${l.doador}</td>
+          <td class="py-3">${l.receptor}</td>
+          <td class="py-3">${l.item}</td>
+          <td class="py-3"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusBadge(l.status)}">${l.status}</span></td>
+          <td class="py-3">${l.token}</td>
+        </tr>
+      `).join("");
+
+      document.querySelectorAll(".lot-row").forEach(r => r.addEventListener("click", () => openModal(r.dataset.id)));
+      lucide.createIcons();
+    }
+
+    const lotModal = document.getElementById("lotModal");
+    const lotTitle = document.getElementById("lotTitle");
+    const timeline = document.getElementById("timeline");
+
+    function openModal(id){
+      const lot = lots.find(x => x.id === id);
+      if(!lot) return;
+      lotTitle.textContent = `Timeline do Lote ${lot.id}`;
+      timeline.innerHTML = lot.timeline.map(step => `
+        <div class="flex gap-3">
+          <span class="mt-1 h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          <p class="text-sm">${step}</p>
+        </div>
+      `).join("");
+      lotModal.classList.remove("hidden");
+      lotModal.classList.add("flex");
+    }
+
+    function closeModal(){
+      lotModal.classList.add("hidden");
+      lotModal.classList.remove("flex");
+    }
+
+    document.getElementById("closeLotModal").addEventListener("click", closeModal);
+    lotModal.addEventListener("click", (e) => { if(e.target === lotModal) closeModal(); });
+
+    searchInput.addEventListener("input", renderTable);
+    dateFilter.addEventListener("change", renderTable);
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+      sidebarLabels.forEach((label) => label.classList.toggle("hidden", isCollapsed));
+      sidebarToggle.innerHTML = isCollapsed ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>' : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    lucide.createIcons();
+    renderTable();
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+

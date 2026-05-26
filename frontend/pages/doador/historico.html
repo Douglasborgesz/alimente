@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alimente | Histórico</title>
+  <title>Alimente | HistÃ³rico</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -40,7 +40,7 @@
       },
     };
   </script>
-  <link rel="stylesheet" href="../assets/css/dashboard-theme.css" />
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
 </head>
 <body class="bg-[#F9FAFB] text-alimente-black font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
   <div class="min-h-screen md:flex">
@@ -56,18 +56,18 @@
         </button>
       </div>
 
-      <nav class="space-y-2" aria-label="Navegação principal">
+      <nav class="space-y-2" aria-label="NavegaÃ§Ã£o principal">
         <a href="dashboardDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
           <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
           <span data-sidebar-label>Dashboard</span>
         </a>
         <a href="minhasDoacoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
           <i data-lucide="hand-heart" class="h-5 w-5 shrink-0"></i>
-          <span data-sidebar-label>Minhas Doações</span>
+          <span data-sidebar-label>Minhas DoaÃ§Ãµes</span>
         </a>
         <a href="historico.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all duration-300">
           <i data-lucide="history" class="h-5 w-5 shrink-0"></i>
-          <span data-sidebar-label>Histórico</span>
+          <span data-sidebar-label>HistÃ³rico</span>
         </a>
         <a href="desempenhoDoador.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
           <i data-lucide="bar-chart-3" class="h-5 w-5 shrink-0"></i>
@@ -79,7 +79,7 @@
         </a>
         <a href="configuracoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
           <i data-lucide="settings" class="h-5 w-5 shrink-0"></i>
-          <span data-sidebar-label>Configurações</span>
+          <span data-sidebar-label>ConfiguraÃ§Ãµes</span>
         </a>
       </nav>
 
@@ -87,7 +87,7 @@
         <p class="text-sm text-white/75">Status do perfil</p>
         <div class="mt-2 flex items-center gap-2 text-[#FFD700] font-semibold">
           <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
-          Visível para ONGs próximas
+          VisÃ­vel para ONGs prÃ³ximas
         </div>
       </div>
     </aside>
@@ -96,12 +96,12 @@
     <main id="mainContent" class="min-w-0 flex-1 bg-[#F9FAFB] p-4 pb-28 transition-all duration-300 md:p-8 md:pb-8">
       <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <p class="text-sm font-medium text-neutral-500">Relatórios e auditoria</p>
-          <h1 class="text-2xl font-extrabold md:text-3xl">Histórico</h1>
+          <p class="text-sm font-medium text-neutral-500">RelatÃ³rios e auditoria</p>
+          <h1 class="text-2xl font-extrabold md:text-3xl">HistÃ³rico</h1>
         </div>
         <button id="exportReportBtn" type="button" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#FFD700] px-6 py-3 font-bold text-[#1A1A1A] shadow-md transition hover:-translate-y-0.5 hover:bg-[#f2c600] hover:shadow-xl">
           <i data-lucide="download" class="h-5 w-5"></i>
-          Exportar Relatório
+          Exportar RelatÃ³rio
         </button>
       </header>
 
@@ -109,7 +109,7 @@
         <div class="rounded-3xl border border-neutral-200 bg-white p-4 shadow-soft md:p-5">
           <div class="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1fr_1.3fr]">
             <label>
-              <span class="mb-2 block text-sm font-bold text-neutral-700">Início</span>
+              <span class="mb-2 block text-sm font-bold text-neutral-700">InÃ­cio</span>
               <input id="startDate" type="date" value="2026-04-01" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] px-4 py-3 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
             </label>
             <label>
@@ -120,7 +120,7 @@
               <span class="mb-2 block text-sm font-bold text-neutral-700">Busca</span>
               <span class="relative block">
                 <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400"></i>
-                <input id="historySearch" type="search" placeholder="Alimento ou instituição receptora" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] py-3 pl-12 pr-4 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
+                <input id="historySearch" type="search" placeholder="Alimento ou instituiÃ§Ã£o receptora" class="w-full rounded-full border border-neutral-200 bg-[#F9FAFB] py-3 pl-12 pr-4 text-sm outline-none transition focus:border-[#FFD700] focus:bg-white focus:ring-4 focus:ring-yellow-100" />
               </span>
             </label>
           </div>
@@ -130,23 +130,23 @@
           <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
             <div class="flex items-center justify-between gap-3">
               <div>
-                <p class="text-sm font-semibold text-neutral-500">Total do Período</p>
+                <p class="text-sm font-semibold text-neutral-500">Total do PerÃ­odo</p>
                 <p class="mt-2 text-3xl font-extrabold">450kg</p>
               </div>
               <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 text-neutral-800">
                 <i data-lucide="scale" class="h-6 w-6"></i>
               </div>
             </div>
-            <p class="mt-2 text-sm text-neutral-600">doados neste mês</p>
+            <p class="mt-2 text-sm text-neutral-600">doados neste mÃªs</p>
           </article>
 
           <article class="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
             <div class="flex items-center justify-between gap-3">
               <div>
-                <p class="text-sm font-semibold text-neutral-500">Instituições Apoiadas</p>
+                <p class="text-sm font-semibold text-neutral-500">InstituiÃ§Ãµes Apoiadas</p>
                 <p class="mt-2 text-3xl font-extrabold">08</p>
               </div>
-              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 text-yellow-800">
                 <i data-lucide="building-2" class="h-6 w-6"></i>
               </div>
             </div>
@@ -159,7 +159,7 @@
         <div class="flex flex-col gap-2 border-b border-neutral-100 p-5 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 class="text-xl font-extrabold">Registros de Coleta</h2>
-            <p class="text-sm text-neutral-500">Histórico validado para acompanhamento e prestação de contas.</p>
+            <p class="text-sm text-neutral-500">HistÃ³rico validado para acompanhamento e prestaÃ§Ã£o de contas.</p>
           </div>
           <span id="resultCount" class="text-sm font-semibold text-neutral-500">5 registros</span>
         </div>
@@ -171,12 +171,12 @@
                 <th class="px-5 py-4 font-bold">Data da Coleta</th>
                 <th class="px-5 py-4 font-bold">Alimento</th>
                 <th class="px-5 py-4 font-bold">Quantidade</th>
-                <th class="px-5 py-4 font-bold">Instituição Receptora</th>
+                <th class="px-5 py-4 font-bold">InstituiÃ§Ã£o Receptora</th>
                 <th class="px-5 py-4 font-bold">Status Final</th>
               </tr>
             </thead>
             <tbody id="historyTable">
-              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluído">
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluÃ­do">
                 <td class="px-5 py-5 text-sm font-semibold text-neutral-700">28/04/2026</td>
                 <td class="px-5 py-5">
                   <p class="font-bold">Legumes Frescos</p>
@@ -185,10 +185,10 @@
                 <td class="px-5 py-5 font-bold">54 kg</td>
                 <td class="px-5 py-5 text-neutral-700">Instituto Mesa Cheia</td>
                 <td class="px-5 py-5">
-                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                  <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
                 </td>
               </tr>
-              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluído">
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluÃ­do">
                 <td class="px-5 py-5 text-sm font-semibold text-neutral-700">24/04/2026</td>
                 <td class="px-5 py-5">
                   <p class="font-bold">Cesta de Frutas</p>
@@ -197,34 +197,34 @@
                 <td class="px-5 py-5 font-bold">38 kg</td>
                 <td class="px-5 py-5 text-neutral-700">ONG Viva Bem</td>
                 <td class="px-5 py-5">
-                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                  <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
                 </td>
               </tr>
-              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-19" data-search="pães integrais casa esperança cancelado">
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-19" data-search="pÃ£es integrais casa esperanÃ§a cancelado">
                 <td class="px-5 py-5 text-sm font-semibold text-neutral-700">19/04/2026</td>
                 <td class="px-5 py-5">
-                  <p class="font-bold">Pães Integrais</p>
+                  <p class="font-bold">PÃ£es Integrais</p>
                   <p class="text-sm text-neutral-500">Padaria</p>
                 </td>
                 <td class="px-5 py-5 font-bold">22 kg</td>
-                <td class="px-5 py-5 text-neutral-700">Casa Esperança</td>
+                <td class="px-5 py-5 text-neutral-700">Casa EsperanÃ§a</td>
                 <td class="px-5 py-5">
                   <span class="inline-flex rounded-full bg-rose-100 px-3 py-1.5 text-xs font-bold text-rose-700">Cancelado</span>
                 </td>
               </tr>
-              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidária concluído">
+              <tr class="history-row-table border-b border-neutral-100 transition hover:bg-yellow-50/50" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidÃ¡ria concluÃ­do">
                 <td class="px-5 py-5 text-sm font-semibold text-neutral-700">12/04/2026</td>
                 <td class="px-5 py-5">
                   <p class="font-bold">Iogurtes Naturais</p>
-                  <p class="text-sm text-neutral-500">Laticínios</p>
+                  <p class="text-sm text-neutral-500">LaticÃ­nios</p>
                 </td>
                 <td class="px-5 py-5 font-bold">60 un.</td>
-                <td class="px-5 py-5 text-neutral-700">Cozinha Solidária</td>
+                <td class="px-5 py-5 text-neutral-700">Cozinha SolidÃ¡ria</td>
                 <td class="px-5 py-5">
-                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                  <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
                 </td>
               </tr>
-              <tr class="history-row-table transition hover:bg-yellow-50/50" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluído">
+              <tr class="history-row-table transition hover:bg-yellow-50/50" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluÃ­do">
                 <td class="px-5 py-5 text-sm font-semibold text-neutral-700">29/03/2026</td>
                 <td class="px-5 py-5">
                   <p class="font-bold">Arroz Embalado</p>
@@ -233,7 +233,7 @@
                 <td class="px-5 py-5 font-bold">120 kg</td>
                 <td class="px-5 py-5 text-neutral-700">Rede Alimento Justo</td>
                 <td class="px-5 py-5">
-                  <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+                  <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
                 </td>
               </tr>
             </tbody>
@@ -241,73 +241,73 @@
         </div>
 
         <div id="historyCards" class="grid grid-cols-1 gap-3 p-4 md:hidden">
-          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluído">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-28" data-search="legumes frescos instituto mesa cheia concluÃ­do">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-neutral-500">28/04/2026</p>
                 <h3 class="mt-1 font-extrabold">Legumes Frescos</h3>
               </div>
-              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+              <span class="rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>54 kg</strong></p>
-              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Instituto Mesa Cheia</strong></p>
+              <p><span class="block font-semibold text-neutral-500">InstituiÃ§Ã£o</span><strong>Instituto Mesa Cheia</strong></p>
             </div>
           </article>
 
-          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluído">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-24" data-search="cesta de frutas ong viva bem concluÃ­do">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-neutral-500">24/04/2026</p>
                 <h3 class="mt-1 font-extrabold">Cesta de Frutas</h3>
               </div>
-              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+              <span class="rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>38 kg</strong></p>
-              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>ONG Viva Bem</strong></p>
+              <p><span class="block font-semibold text-neutral-500">InstituiÃ§Ã£o</span><strong>ONG Viva Bem</strong></p>
             </div>
           </article>
 
-          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-19" data-search="pães integrais casa esperança cancelado">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-19" data-search="pÃ£es integrais casa esperanÃ§a cancelado">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-neutral-500">19/04/2026</p>
-                <h3 class="mt-1 font-extrabold">Pães Integrais</h3>
+                <h3 class="mt-1 font-extrabold">PÃ£es Integrais</h3>
               </div>
               <span class="rounded-full bg-rose-100 px-3 py-1.5 text-xs font-bold text-rose-700">Cancelado</span>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>22 kg</strong></p>
-              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Casa Esperança</strong></p>
+              <p><span class="block font-semibold text-neutral-500">InstituiÃ§Ã£o</span><strong>Casa EsperanÃ§a</strong></p>
             </div>
           </article>
 
-          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidária concluído">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-04-12" data-search="iogurtes naturais cozinha solidÃ¡ria concluÃ­do">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-neutral-500">12/04/2026</p>
                 <h3 class="mt-1 font-extrabold">Iogurtes Naturais</h3>
               </div>
-              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+              <span class="rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>60 un.</strong></p>
-              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Cozinha Solidária</strong></p>
+              <p><span class="block font-semibold text-neutral-500">InstituiÃ§Ã£o</span><strong>Cozinha SolidÃ¡ria</strong></p>
             </div>
           </article>
 
-          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluído">
+          <article class="history-row-card rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm" data-date="2026-03-29" data-search="arroz embalado rede alimento justo concluÃ­do">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-neutral-500">29/03/2026</p>
                 <h3 class="mt-1 font-extrabold">Arroz Embalado</h3>
               </div>
-              <span class="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-800">Concluído</span>
+              <span class="rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-900">ConcluÃ­do</span>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <p><span class="block font-semibold text-neutral-500">Quantidade</span><strong>120 kg</strong></p>
-              <p><span class="block font-semibold text-neutral-500">Instituição</span><strong>Rede Alimento Justo</strong></p>
+              <p><span class="block font-semibold text-neutral-500">InstituiÃ§Ã£o</span><strong>Rede Alimento Justo</strong></p>
             </div>
           </article>
         </div>
@@ -317,7 +317,7 @@
             <i data-lucide="calendar-x" class="h-7 w-7 text-neutral-800"></i>
           </div>
           <h2 class="mt-4 text-xl font-extrabold">Nenhum registro encontrado para estas datas</h2>
-          <p class="mt-2 text-sm text-neutral-600">Ajuste o período ou tente buscar por outra instituição.</p>
+          <p class="mt-2 text-sm text-neutral-600">Ajuste o perÃ­odo ou tente buscar por outra instituiÃ§Ã£o.</p>
         </div>
       </section>
     </main>
@@ -325,8 +325,8 @@
 
   <nav class="fixed bottom-0 inset-x-0 z-30 border-t border-white/10 bg-[#1A1A1A] md:hidden">
     <ul class="grid grid-cols-6">
-      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="dashboardDoador.html"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Início</a></li>
-      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="minhasDoacoes.html"><i data-lucide="hand-heart" class="h-4 w-4"></i>Doações</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="dashboardDoador.html"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>InÃ­cio</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="minhasDoacoes.html"><i data-lucide="hand-heart" class="h-4 w-4"></i>DoaÃ§Ãµes</a></li>
       <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] font-semibold text-[#FFD700]" href="historico.html"><i data-lucide="history" class="h-4 w-4"></i>Hist.</a></li>
       <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="desempenhoDoador.html"><i data-lucide="bar-chart-3" class="h-4 w-4"></i>Dados</a></li>
       <li><a class="flex flex-col items-center gap-1 py-2 text-[11px] text-white/80" href="perfil.html"><i data-lucide="store" class="h-4 w-4"></i>Perfil</a></li>
@@ -403,11 +403,13 @@
     });
 
     document.getElementById("exportReportBtn").addEventListener("click", () => {
-      alert("Relatório de impacto exportado com sucesso.");
+      alert("RelatÃ³rio de impacto exportado com sucesso.");
     });
 
     filterHistory();
   </script>
-  <script src="../assets/js/dashboard-theme.js"></script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
 </body>
 </html>
+
+

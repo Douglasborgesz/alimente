@@ -1,0 +1,380 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Validação de Cadastros (Admin)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+          boxShadow: {
+            soft: "0 2px 12px rgba(0,0,0,0.08)",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Backoffice Admin</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navegação principal admin">
+        <a href="dashboardAdmin.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Visão Geral</span>
+        </a>
+        <a href="validacaoEntidades.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all duration-300">
+          <i data-lucide="badge-check" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Validação de Entidades</span>
+        </a>
+        <a href="usuariosModeracao.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">`r`n          <i data-lucide="users" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Usuários &amp; Moderação</span>
+        </a>
+        <a href="rastreabilidade.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">`r`n          <i data-lucide="route" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Rastreabilidade</span>
+        </a>
+        <a href="relatoriosAuditoria.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">`r`n          <i data-lucide="file-bar-chart" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Relatórios</span>
+        </a>
+      </nav>
+
+      <div data-sidebar-panel class="mt-auto rounded-3xl border border-white/15 bg-white/5 p-4">
+        <p class="text-sm text-white/75">Fila de segurança</p>
+        <div class="mt-2 flex items-center gap-2 text-[#FFD700] font-semibold">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          12 pendências críticas
+        </div>
+      </div>
+    </aside>
+
+    <main class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8 transition-all duration-300">
+      <header class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p class="text-sm text-neutral-500">Compliance &amp; Segurança</p>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Fila de Triagem de Segurança</h2>
+        </div>
+        <div class="inline-flex items-center rounded-full border border-amber-200 bg-[#fffdf2] px-4 py-2 text-sm font-semibold text-[#1A1A1A]">
+          <span class="mr-2 h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          12 novos cadastros aguardando análise
+        </div>
+      </header>
+
+      <section class="mt-6 grid grid-cols-1 xl:grid-cols-10 gap-4">
+        <aside class="xl:col-span-3 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <select id="filterType" class="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100">
+              <option value="all">Tipo: Todos</option>
+              <option value="ong">ONG</option>
+              <option value="empresa">Empresa</option>
+            </select>
+            <select id="filterPriority" class="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100">
+              <option value="oldest">Mais antigos primeiro</option>
+              <option value="newest">Mais recentes primeiro</option>
+            </select>
+          </div>
+
+          <div id="queueList" class="mt-4 space-y-2 max-h-[640px] overflow-y-auto pr-1">
+          </div>
+        </aside>
+
+        <section class="xl:col-span-7 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <article class="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+              <h3 class="text-base font-bold">Identidade</h3>
+              <div class="mt-3 space-y-2 text-sm">
+                <p><span class="font-semibold">Nome Fantasia:</span> <span id="dNome"></span></p>
+                <p><span class="font-semibold">Razão Social:</span> <span id="dRazao"></span></p>
+                <div class="flex items-center gap-2">
+                  <p><span class="font-semibold">CNPJ:</span> <span id="dCnpj"></span></p>
+                  <button id="copyCnpj" class="inline-flex items-center rounded-full border border-neutral-300 px-2 py-1 text-xs hover:bg-neutral-100 transition">
+                    <i data-lucide="copy" class="h-3.5 w-3.5"></i>
+                  </button>
+                </div>
+                <p><span class="font-semibold">Endereço:</span> <span id="dEndereco"></span></p>
+              </div>
+            </article>
+
+            <article class="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+              <h3 class="text-base font-bold">Documentos</h3>
+              <div id="docsList" class="mt-3 space-y-2"></div>
+            </article>
+          </div>
+
+          <article class="mt-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+            <h3 class="text-base font-bold">Fotos do Local</h3>
+            <div id="photosGrid" class="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2"></div>
+          </article>
+
+          <div id="adjustBox" class="mt-4 hidden rounded-2xl border border-neutral-200 bg-white p-4">
+            <label for="adjustText" class="block text-sm font-semibold">Justificativa / Solicitação de Ajustes</label>
+            <textarea id="adjustText" rows="3" class="mt-2 w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" placeholder="Descreva o que precisa ser corrigido nos documentos..."></textarea>
+          </div>
+
+          <div class="mt-5 flex flex-col md:flex-row gap-2 md:items-center md:justify-end border-t border-neutral-200 pt-4">
+            <button class="w-full md:w-auto rounded-xl bg-[#FFD700] px-5 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition">Aprovar Cadastro</button>
+            <button id="toggleAdjust" class="w-full md:w-auto rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100 transition">Solicitar Ajustes</button>
+            <button class="w-full md:w-auto rounded-xl border border-rose-300 bg-white px-5 py-3 text-sm font-semibold text-rose-700 hover:bg-rose-50 transition">Rejeitar</button>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <nav class="fixed md:hidden bottom-0 inset-x-0 z-30 bg-[#1A1A1A] border-t border-white/10">
+    <ul class="grid grid-cols-5">
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="dashboardAdmin.html"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Geral</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[#FFD700] text-[11px] font-semibold" href="validacaoEntidades.html"><i data-lucide="badge-check" class="w-4 h-4"></i>Triagem</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="usuariosModeracao.html"><i data-lucide="users" class="w-4 h-4"></i>Usuários</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="rastreabilidade.html"><i data-lucide="route" class="w-4 h-4"></i>Rota</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="relatoriosAuditoria.html"><i data-lucide="file-bar-chart" class="w-4 h-4"></i>Relat.</a></li>
+    </ul>
+  </nav>
+
+  <div id="docModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+    <div class="w-full max-w-2xl rounded-3xl bg-white p-5 shadow-xl">
+      <div class="flex items-center justify-between gap-2">
+        <h3 id="docModalTitle" class="text-lg font-bold">Visualizar Documento</h3>
+        <button id="closeDocModal" class="rounded-full p-2 hover:bg-neutral-100" aria-label="Fechar visualização">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <div class="mt-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-8 text-center">
+        <i data-lucide="file-text" class="mx-auto h-12 w-12 text-neutral-400"></i>
+        <p class="mt-3 text-sm text-neutral-600">Pré-visualização simulada do arquivo.</p>
+      </div>
+      <a id="openNewTab" href="#" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-100 transition">
+        <i data-lucide="external-link" class="h-4 w-4"></i>Abrir em nova aba
+      </a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    const entities = [
+      {
+        id: 1,
+        nome: "Instituto Esperança",
+        tipo: "ong",
+        esperaMin: 190,
+        razao: "Instituto Esperança de Apoio Social",
+        cnpj: "12.345.678/0001-99",
+        endereco: "Rua das Palmeiras, 245 - Benfica, Fortaleza/CE",
+        docs: ["Estatuto Social", "Cartão CNPJ", "Documento do Responsável"],
+        fotos: ["https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&q=80", "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=400&q=80", "https://images.unsplash.com/photo-1560523159-4a9692d222f9?w=400&q=80"]
+      },
+      {
+        id: 2,
+        nome: "Mercado União",
+        tipo: "empresa",
+        esperaMin: 80,
+        razao: "Mercado União Alimentos LTDA",
+        cnpj: "45.987.321/0001-13",
+        endereco: "Av. Santos Dumont, 700 - Meireles, Fortaleza/CE",
+        docs: ["Contrato Social", "Cartão CNPJ", "Documento do Responsável"],
+        fotos: ["https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80", "https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=400&q=80", "https://images.unsplash.com/photo-1604719312566-8912e9c8a213?w=400&q=80"]
+      },
+      {
+        id: 3,
+        nome: "ONG Mãos Solidárias",
+        tipo: "ong",
+        esperaMin: 320,
+        razao: "Associação Mãos Solidárias",
+        cnpj: "98.222.111/0001-07",
+        endereco: "Rua dos Coqueiros, 90 - Aquiraz/CE",
+        docs: ["Estatuto Social", "Cartão CNPJ", "Documento do Responsável"],
+        fotos: ["https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80", "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80", "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80"]
+      }
+    ];
+
+    let selectedId = entities[0].id;
+
+    const queueList = document.getElementById("queueList");
+    const filterType = document.getElementById("filterType");
+    const filterPriority = document.getElementById("filterPriority");
+    const dNome = document.getElementById("dNome");
+    const dRazao = document.getElementById("dRazao");
+    const dCnpj = document.getElementById("dCnpj");
+    const dEndereco = document.getElementById("dEndereco");
+    const docsList = document.getElementById("docsList");
+    const photosGrid = document.getElementById("photosGrid");
+
+    function formatWait(min) {
+      if (min < 60) return `há ${min} min`;
+      const h = Math.floor(min / 60);
+      return `há ${h} hora${h > 1 ? "s" : ""}`;
+    }
+
+    function filteredEntities() {
+      const type = filterType.value;
+      const priority = filterPriority.value;
+      let list = [...entities];
+      if (type !== "all") list = list.filter((e) => e.tipo === type);
+      list.sort((a, b) => priority === "oldest" ? b.esperaMin - a.esperaMin : a.esperaMin - b.esperaMin);
+      return list;
+    }
+
+    function renderQueue() {
+      const list = filteredEntities();
+      if (!list.find((e) => e.id === selectedId) && list.length) selectedId = list[0].id;
+      queueList.innerHTML = list.map((e) => {
+        const selected = e.id === selectedId;
+        const badge = e.tipo === "ong" ? "bg-yellow-100 text-yellow-800" : "bg-blue-100 text-blue-700";
+        return `
+          <button data-id="${e.id}" class="queue-item w-full text-left rounded-2xl border ${selected ? "border-2 border-[#FFD700] bg-[#fffdf2]" : "border-neutral-200 bg-white hover:bg-neutral-50"} p-3 transition">
+            <div class="flex items-start justify-between gap-2">
+              <p class="text-sm font-semibold">${e.nome}</p>
+              <span class="inline-flex rounded-full px-2 py-1 text-[11px] font-semibold ${badge}">${e.tipo === "ong" ? "ONG" : "Empresa"}</span>
+            </div>
+            <p class="mt-1 text-xs text-neutral-500">${formatWait(e.esperaMin)}</p>
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".queue-item").forEach((el) => {
+        el.addEventListener("click", () => {
+          selectedId = Number(el.dataset.id);
+          renderQueue();
+          renderDetails();
+        });
+      });
+    }
+
+    function renderDetails() {
+      const e = entities.find((x) => x.id === selectedId);
+      if (!e) return;
+      dNome.textContent = e.nome;
+      dRazao.textContent = e.razao;
+      dCnpj.textContent = e.cnpj;
+      dEndereco.textContent = e.endereco;
+
+      docsList.innerHTML = e.docs.map((doc, idx) => `
+        <button class="doc-btn w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-left hover:border-[#FFD700] hover:bg-[#fffdf2] transition" data-name="${doc}" data-url="https://example.com/doc-${e.id}-${idx+1}">
+          <div class="flex items-center justify-between gap-2">
+            <span class="inline-flex items-center gap-2 text-sm font-semibold"><i data-lucide="file-text" class="h-4 w-4 text-[#FFD700]"></i>${doc}</span>
+            <span class="inline-flex items-center gap-1 text-xs font-semibold text-neutral-600"><i data-lucide="eye" class="h-3.5 w-3.5"></i>Visualizar</span>
+          </div>
+        </button>
+      `).join("");
+
+      photosGrid.innerHTML = e.fotos.map((src) => `<img class="h-24 w-full rounded-xl object-cover border border-neutral-200" src="${src}" alt="Foto do local" />`).join("");
+      lucide.createIcons();
+      bindDocButtons();
+    }
+
+    const docModal = document.getElementById("docModal");
+    const docModalTitle = document.getElementById("docModalTitle");
+    const openNewTab = document.getElementById("openNewTab");
+    const closeDocModal = document.getElementById("closeDocModal");
+
+    function bindDocButtons() {
+      document.querySelectorAll(".doc-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          docModalTitle.textContent = btn.dataset.name;
+          openNewTab.href = btn.dataset.url;
+          docModal.classList.remove("hidden");
+          docModal.classList.add("flex");
+        });
+      });
+    }
+
+    function closeModal() {
+      docModal.classList.add("hidden");
+      docModal.classList.remove("flex");
+    }
+
+    closeDocModal.addEventListener("click", closeModal);
+    docModal.addEventListener("click", (e) => {
+      if (e.target === docModal) closeModal();
+    });
+
+    document.getElementById("copyCnpj").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(dCnpj.textContent.trim());
+      } catch (_) {}
+    });
+
+    const adjustBox = document.getElementById("adjustBox");
+    document.getElementById("toggleAdjust").addEventListener("click", () => {
+      adjustBox.classList.toggle("hidden");
+    });
+
+    filterType.addEventListener("change", () => {
+      renderQueue();
+      renderDetails();
+    });
+    filterPriority.addEventListener("change", () => {
+      renderQueue();
+      renderDetails();
+    });
+
+    lucide.createIcons();
+    renderQueue();
+    renderDetails();
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+    const sidebarPanel = document.querySelector("[data-sidebar-panel]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebarToggle.setAttribute("aria-label", isCollapsed ? "Expandir sidebar" : "Recolher sidebar");
+
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+
+      sidebarLabels.forEach((label) => {
+        label.classList.toggle("hidden", isCollapsed);
+      });
+
+      sidebarPanel.classList.toggle("hidden", isCollapsed);
+      sidebarToggle.innerHTML = isCollapsed
+        ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>'
+        : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+
+
+
+

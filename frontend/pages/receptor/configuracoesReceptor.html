@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Perfil e Configurações (Receptor)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Painel Receptor (ONG)</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navegação principal">
+        <a href="homeReceptor.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Dashboard</span>
+        </a>
+        <a href="buscarDoacoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="search" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Buscar Doações</span>
+        </a>
+        <a href="minhasRetiradas.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="truck" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Minhas Retiradas</span>
+        </a>
+        <a href="historicoImpacto.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="history" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Histórico</span>
+        </a>
+        <a href="configuracoesReceptor.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all duration-300">
+          <i data-lucide="settings" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Configurações</span>
+        </a>
+      </nav>
+
+      <div data-sidebar-panel class="mt-auto rounded-3xl border border-white/15 bg-white/5 p-4">
+        <p class="text-sm text-white/75">Status do perfil</p>
+        <div class="mt-2 flex items-center gap-2 text-[#FFD700] font-semibold">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          Dados atualizados hoje
+        </div>
+      </div>
+    </aside>
+
+    <main id="mainContent" class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8 transition-all duration-300">
+      <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-sm text-neutral-500">Gestão institucional</p>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Perfil da Instituição &amp; Configurações</h2>
+        </div>
+        <button class="inline-flex items-center justify-center rounded-full bg-[#FFD700] px-6 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition shadow-sm">
+          Salvar Alterações
+        </button>
+      </header>
+
+      <section class="mt-6 grid grid-cols-1 xl:grid-cols-12 gap-4">
+        <article class="xl:col-span-7 rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <h3 class="text-xl font-bold">Identidade e Dados Cadastrais</h3>
+          <div class="mt-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <button class="h-24 w-24 rounded-full border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-[#FFD700] hover:bg-[#fffdf2] transition flex items-center justify-center text-neutral-500" aria-label="Upload de logomarca">
+              <i data-lucide="image-plus" class="h-8 w-8"></i>
+            </button>
+            <div>
+              <p class="text-sm font-semibold">Logomarca da Instituição</p>
+              <p class="text-xs text-neutral-500">PNG ou JPG, até 5MB</p>
+              <span class="mt-2 inline-flex rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">Perfil Validado</span>
+            </div>
+          </div>
+
+          <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <label class="block">
+              <span class="mb-1 block text-sm font-semibold">Nome da Instituição</span>
+              <input type="text" value="Instituto Esperança" class="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-sm font-semibold">CNPJ</span>
+              <input type="text" value="12.345.678/0001-99" class="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-sm font-semibold">E-mail de Contato</span>
+              <input type="email" value="contato@institutoesperanca.org" class="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-sm font-semibold">Telefone/WhatsApp</span>
+              <input type="text" value="(11) 99888-7766" class="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+            </label>
+          </div>
+        </article>
+
+        <article class="xl:col-span-5 rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <h3 class="text-xl font-bold">Capacidade Logística e Preferências</h3>
+
+          <label class="mt-5 block">
+            <span class="mb-2 block text-sm font-semibold">Raio de Atuação</span>
+            <div class="rounded-2xl border border-neutral-200 bg-neutral-50 p-3">
+              <p class="text-sm">Buscar doações em até <strong><span id="raioValor">10</span> km</strong></p>
+              <input id="raioInput" type="range" min="1" max="30" value="10" class="mt-2 w-full accent-[#FFD700]" />
+            </div>
+          </label>
+
+          <div class="mt-5">
+            <p class="text-sm font-semibold">Categorias Aceitas</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              <label class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"><input type="checkbox" checked class="accent-[#FFD700]" />Refeições Prontas</label>
+              <label class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"><input type="checkbox" checked class="accent-[#FFD700]" />Hortifruti</label>
+              <label class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"><input type="checkbox" class="accent-[#FFD700]" />Não Perecíveis</label>
+              <label class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"><input type="checkbox" checked class="accent-[#FFD700]" />Padaria</label>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center justify-between rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+            <div>
+              <p class="text-sm font-semibold">Transporte</p>
+              <p class="text-xs text-neutral-500">Possui veículo refrigerado/térmico</p>
+            </div>
+            <button type="button" id="transporteToggle" class="relative h-7 w-12 rounded-full bg-neutral-300 transition" aria-pressed="false">
+              <span class="absolute left-1 top-1 h-5 w-5 rounded-full bg-white transition"></span>
+            </button>
+          </div>
+        </article>
+
+        <article class="xl:col-span-6 rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <h3 class="text-xl font-bold">Documentação e Compliance</h3>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <label class="block rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 p-5 text-center hover:border-[#FFD700] hover:bg-[#fffdf2] transition cursor-pointer">
+              <i data-lucide="file-up" class="mx-auto h-7 w-7 text-neutral-500"></i>
+              <p class="mt-2 text-sm font-semibold">Estatuto Social</p>
+              <p class="text-xs text-neutral-500">Clique para enviar</p>
+              <input type="file" class="hidden" />
+            </label>
+            <label class="block rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 p-5 text-center hover:border-[#FFD700] hover:bg-[#fffdf2] transition cursor-pointer">
+              <i data-lucide="file-check" class="mx-auto h-7 w-7 text-neutral-500"></i>
+              <p class="mt-2 text-sm font-semibold">Comprovante de Endereço</p>
+              <p class="text-xs text-neutral-500">Clique para enviar</p>
+              <input type="file" class="hidden" />
+            </label>
+          </div>
+        </article>
+
+        <article class="xl:col-span-6 rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <h3 class="text-xl font-bold">Segurança e Notificações</h3>
+          <div class="mt-4 space-y-3">
+            <div class="flex items-center justify-between rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+              <div>
+                <p class="text-sm font-semibold">Notificar novas doações no meu raio de alcance</p>
+              </div>
+              <button type="button" class="notify-toggle relative h-7 w-12 rounded-full bg-[#FFD700] transition" aria-pressed="true">
+                <span class="absolute right-1 top-1 h-5 w-5 rounded-full bg-white transition"></span>
+              </button>
+            </div>
+            <div class="flex items-center justify-between rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+              <div>
+                <p class="text-sm font-semibold">Lembretes de horário de coleta</p>
+              </div>
+              <button type="button" class="notify-toggle relative h-7 w-12 rounded-full bg-[#FFD700] transition" aria-pressed="true">
+                <span class="absolute right-1 top-1 h-5 w-5 rounded-full bg-white transition"></span>
+              </button>
+            </div>
+          </div>
+
+          <button class="mt-5 inline-flex items-center justify-center rounded-full border-2 border-[#1A1A1A] bg-white px-5 py-2.5 text-sm font-bold text-[#1A1A1A] hover:bg-neutral-100 transition">
+            Alterar Senha
+          </button>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <nav class="fixed md:hidden bottom-0 inset-x-0 z-30 bg-[#1A1A1A] border-t border-white/10">
+    <ul class="grid grid-cols-5">
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="homeReceptor.html"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Início</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="buscarDoacoes.html"><i data-lucide="search" class="w-4 h-4"></i>Buscar</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="minhasRetiradas.html"><i data-lucide="truck" class="w-4 h-4"></i>Retiradas</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="historicoImpacto.html"><i data-lucide="history" class="w-4 h-4"></i>Hist.</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[#FFD700] text-[11px] font-semibold" href="configuracoesReceptor.html"><i data-lucide="settings" class="w-4 h-4"></i>Ajustes</a></li>
+    </ul>
+  </nav>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+    const sidebarPanel = document.querySelector("[data-sidebar-panel]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebarToggle.setAttribute("aria-label", isCollapsed ? "Expandir sidebar" : "Recolher sidebar");
+
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+
+      sidebarLabels.forEach((label) => {
+        label.classList.toggle("hidden", isCollapsed);
+      });
+
+      sidebarPanel.classList.toggle("hidden", isCollapsed);
+      sidebarToggle.innerHTML = isCollapsed
+        ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>'
+        : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    const raioInput = document.getElementById("raioInput");
+    const raioValor = document.getElementById("raioValor");
+    raioInput.addEventListener("input", () => {
+      raioValor.textContent = raioInput.value;
+    });
+
+    function toggleSwitch(button, activeColor) {
+      const pressed = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", String(!pressed));
+      const knob = button.querySelector("span");
+
+      if (!pressed) {
+        button.classList.remove(activeColor);
+        button.classList.add("bg-neutral-300");
+        knob.classList.remove("right-1");
+        knob.classList.add("left-1");
+      } else {
+        button.classList.remove("bg-neutral-300");
+        button.classList.add(activeColor);
+        knob.classList.remove("left-1");
+        knob.classList.add("right-1");
+      }
+    }
+
+    const transporteToggle = document.getElementById("transporteToggle");
+    transporteToggle.addEventListener("click", () => toggleSwitch(transporteToggle, "bg-[#FFD700]"));
+
+    document.querySelectorAll(".notify-toggle").forEach((toggle) => {
+      toggle.addEventListener("click", () => toggleSwitch(toggle, "bg-[#FFD700]"));
+    });
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+

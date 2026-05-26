@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Minhas Retiradas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+          colors: {
+            alimente: {
+              black: "#1A1A1A",
+              yellow: "#FFD700",
+              white: "#FFFFFF",
+            },
+          },
+          boxShadow: {
+            glass: "0 8px 30px rgba(0,0,0,0.10)",
+            soft: "0 2px 12px rgba(0,0,0,0.08)",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Painel Receptor (ONG)</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navegação principal">
+        <a href="homeReceptor.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="layout-dashboard" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Dashboard</span>
+        </a>
+        <a href="buscarDoacoes.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="search" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Buscar Doações</span>
+        </a>
+        <a href="minhasRetiradas.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold transition-all duration-300">
+          <i data-lucide="truck" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Minhas Retiradas</span>
+        </a>
+        <a href="historicoImpacto.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="history" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Histórico</span>
+        </a>
+        <a href="configuracoesReceptor.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10 transition-all duration-300">
+          <i data-lucide="settings" class="h-5 w-5 shrink-0"></i>
+          <span data-sidebar-label>Configurações</span>
+        </a>
+      </nav>
+
+      <div data-sidebar-panel class="mt-auto rounded-3xl border border-white/15 bg-white/5 p-4">
+        <p class="text-sm text-white/75">Status das coletas</p>
+        <div class="mt-2 flex items-center gap-2 text-[#FFD700] font-semibold">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#FFD700]"></span>
+          3 retiradas em andamento
+        </div>
+      </div>
+    </aside>
+
+    <main id="mainContent" class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8 transition-all duration-300">
+      <header>
+        <p class="text-sm text-neutral-500">Operação logística</p>
+        <h2 class="mt-1 text-2xl md:text-3xl font-extrabold">Minhas Retiradas</h2>
+      </header>
+
+      <section class="mt-5 border-b border-neutral-200">
+        <div class="flex items-center gap-6">
+          <button class="tab-btn border-b-2 border-[#FFD700] pb-3 text-sm font-bold text-[#1A1A1A]" data-tab="ongoing">Em Andamento</button>
+          <button class="tab-btn border-b-2 border-transparent pb-3 text-sm font-semibold text-neutral-500 hover:text-neutral-700" data-tab="done">Concluídas</button>
+        </div>
+      </section>
+
+      <section id="ongoingTab" class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex rounded-full bg-rose-100 text-rose-700 px-3 py-1 text-xs font-semibold">Faltam 2 horas</span>
+            <span class="text-xs text-neutral-500">ID #ALM-4021</span>
+          </div>
+          <h3 class="mt-4 text-xl font-bold">Supermercado Vida</h3>
+          <a href="https://maps.google.com/?q=Rua+das+Flores+120,+Centro" target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex items-center gap-2 text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900">
+            <i data-lucide="map-pin" class="h-4 w-4"></i>
+            Rua das Flores, 120 - Centro, São Paulo/SP
+          </a>
+          <p class="mt-4 text-sm text-neutral-700">15kg de hortifruti variados</p>
+          <div class="mt-3 rounded-2xl bg-[#fffdf2] border border-yellow-200 px-3 py-2 text-sm font-semibold text-neutral-700">Retirar entre 14h e 17h</div>
+          <button class="confirm-btn mt-5 w-full rounded-xl bg-[#FFD700] px-4 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition" data-collector="Supermercado Vida">Confirmar Coleta</button>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex rounded-full bg-amber-100 text-amber-700 px-3 py-1 text-xs font-semibold">Coleta Hoje</span>
+            <span class="text-xs text-neutral-500">ID #ALM-3987</span>
+          </div>
+          <h3 class="mt-4 text-xl font-bold">Padaria Santa Clara</h3>
+          <a href="https://maps.google.com/?q=Avenida+Paulista+890" target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex items-center gap-2 text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900">
+            <i data-lucide="map-pin" class="h-4 w-4"></i>
+            Avenida Paulista, 890 - Bela Vista, São Paulo/SP
+          </a>
+          <p class="mt-4 text-sm text-neutral-700">22kg de pães e bolos do dia</p>
+          <div class="mt-3 rounded-2xl bg-[#fffdf2] border border-yellow-200 px-3 py-2 text-sm font-semibold text-neutral-700">Retirar entre 16h e 19h</div>
+          <button class="confirm-btn mt-5 w-full rounded-xl bg-[#FFD700] px-4 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition" data-collector="Padaria Santa Clara">Confirmar Coleta</button>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-sm p-5 lg:col-span-2">
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold">Coleta Amanhã</span>
+            <span class="text-xs text-neutral-500">ID #ALM-4062</span>
+          </div>
+          <h3 class="mt-4 text-xl font-bold">Restaurante Bom Prato</h3>
+          <a href="https://maps.google.com/?q=Rua+Augusta+450" target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex items-center gap-2 text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900">
+            <i data-lucide="map-pin" class="h-4 w-4"></i>
+            Rua Augusta, 450 - Consolação, São Paulo/SP
+          </a>
+          <p class="mt-4 text-sm text-neutral-700">18kg de refeições prontas embaladas</p>
+          <div class="mt-3 rounded-2xl bg-[#fffdf2] border border-yellow-200 px-3 py-2 text-sm font-semibold text-neutral-700">Retirar entre 10h e 12h</div>
+          <button class="confirm-btn mt-5 w-full md:w-auto rounded-xl bg-[#FFD700] px-6 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition" data-collector="Restaurante Bom Prato">Confirmar Coleta</button>
+        </article>
+      </section>
+
+      <section id="doneTab" class="mt-6 hidden grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-sm p-5">
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex rounded-full bg-yellow-100 text-yellow-800 px-3 py-1 text-xs font-semibold">Concluída</span>
+            <span class="text-xs text-neutral-500">ID #ALM-3910</span>
+          </div>
+          <h3 class="mt-4 text-xl font-bold">Mercadinho União</h3>
+          <p class="mt-1 text-sm text-neutral-600">Coleta confirmada em 22/05/2026 às 15:42</p>
+          <p class="mt-4 text-sm text-neutral-700">12kg de legumes e verduras</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <nav class="fixed md:hidden bottom-0 inset-x-0 z-30 bg-[#1A1A1A] border-t border-white/10">
+    <ul class="grid grid-cols-5">
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="homeReceptor.html"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Início</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="buscarDoacoes.html"><i data-lucide="search" class="w-4 h-4"></i>Buscar</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-[#FFD700] text-[11px] font-semibold" href="minhasRetiradas.html"><i data-lucide="truck" class="w-4 h-4"></i>Retiradas</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="historicoImpacto.html"><i data-lucide="history" class="w-4 h-4"></i>Hist.</a></li>
+      <li><a class="flex flex-col items-center gap-1 py-2 text-white/80 text-[11px]" href="configuracoesReceptor.html"><i data-lucide="settings" class="w-4 h-4"></i>Ajustes</a></li>
+    </ul>
+  </nav>
+
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/45 p-4">
+    <div class="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="text-2xl font-extrabold">Validar Coleta</h3>
+          <p id="modalCollector" class="text-sm text-neutral-500">Confirme com token de segurança.</p>
+        </div>
+        <button id="closeModalBtn" class="rounded-full p-2 hover:bg-neutral-100" aria-label="Fechar modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="mt-5 space-y-4">
+        <label class="block">
+          <span class="mb-1 block text-sm font-semibold">Token de Segurança (PIN 4 dígitos)</span>
+          <input id="pinInput" type="text" inputmode="numeric" maxlength="4" placeholder="0000" class="w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+        </label>
+
+        <div class="rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 p-5 text-center">
+          <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-xl bg-white border border-neutral-200">
+            <i data-lucide="qr-code" class="h-10 w-10 text-neutral-400"></i>
+          </div>
+          <p class="mt-3 text-xs text-neutral-500">Placeholder para escaneamento de QR Code</p>
+        </div>
+
+        <button id="validateBtn" class="w-full rounded-xl bg-[#FFD700] px-4 py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600] transition">Validar Entrega</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+    const sidebarPanel = document.querySelector("[data-sidebar-panel]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebarToggle.setAttribute("aria-label", isCollapsed ? "Expandir sidebar" : "Recolher sidebar");
+
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+
+      sidebarLabels.forEach((label) => {
+        label.classList.toggle("hidden", isCollapsed);
+      });
+
+      sidebarPanel.classList.toggle("hidden", isCollapsed);
+      sidebarToggle.innerHTML = isCollapsed
+        ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>'
+        : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const ongoingTab = document.getElementById("ongoingTab");
+    const doneTab = document.getElementById("doneTab");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach((b) => {
+          b.classList.remove("border-[#FFD700]", "text-[#1A1A1A]", "font-bold");
+          b.classList.add("border-transparent", "text-neutral-500", "font-semibold");
+        });
+        btn.classList.add("border-[#FFD700]", "text-[#1A1A1A]", "font-bold");
+        btn.classList.remove("border-transparent", "text-neutral-500");
+
+        const isOngoing = btn.dataset.tab === "ongoing";
+        ongoingTab.classList.toggle("hidden", !isOngoing);
+        doneTab.classList.toggle("hidden", isOngoing);
+      });
+    });
+
+    const modal = document.getElementById("confirmModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const validateBtn = document.getElementById("validateBtn");
+    const pinInput = document.getElementById("pinInput");
+    const modalCollector = document.getElementById("modalCollector");
+
+    document.querySelectorAll(".confirm-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        modalCollector.textContent = `Confirme com token de segurança para ${button.dataset.collector}.`;
+        pinInput.value = "";
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      });
+    });
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    validateBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeModal();
+    });
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+
+

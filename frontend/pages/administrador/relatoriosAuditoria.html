@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alimente | Relatórios & Logs de Auditoria (Admin)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem("alimente-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) document.documentElement.classList.add("dark");
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "sans-serif"] },
+          boxShadow: { soft: "0 2px 12px rgba(0,0,0,0.08)" },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="../../assets/css/dashboard-theme.css" />
+</head>
+<body class="bg-[#F9FAFB] text-[#1A1A1A] font-sans dark:bg-[#0D0D0D] dark:text-[#F3F4F6] transition-colors duration-300">
+  <div class="min-h-screen md:flex">
+    <aside id="sidebar" class="hidden w-64 shrink-0 md:flex md:flex-col bg-[#1A1A1A] text-white p-5 gap-8 transition-all duration-300">
+      <div class="flex items-start justify-between gap-3">
+        <div data-sidebar-label>
+          <h1 class="text-2xl font-extrabold">Alimente</h1>
+          <p class="text-sm text-white/70">Backoffice Admin</p>
+        </div>
+        <button id="sidebarToggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/15 transition" aria-label="Recolher sidebar" aria-expanded="true">
+          <i data-lucide="panel-left-close" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <nav class="space-y-2">
+        <a href="dashboardAdmin.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="layout-dashboard" class="h-5 w-5"></i><span data-sidebar-label>Visão Geral</span></a>
+        <a href="validacaoEntidades.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="badge-check" class="h-5 w-5"></i><span data-sidebar-label>Validação de Entidades</span></a>
+        <a href="usuariosModeracao.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="users" class="h-5 w-5"></i><span data-sidebar-label>Usuários &amp; Moderação</span></a>
+        <a href="rastreabilidade.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 text-white/80 hover:bg-white/10"><i data-lucide="route" class="h-5 w-5"></i><span data-sidebar-label>Rastreabilidade</span></a>
+        <a href="relatoriosAuditoria.html" class="flex items-center gap-3 rounded-3xl px-3 py-3 bg-white/5 text-[#FFD700] font-semibold"><i data-lucide="file-bar-chart" class="h-5 w-5"></i><span data-sidebar-label>Relatórios</span></a>
+      </nav>
+    </aside>
+
+    <main class="min-w-0 flex-1 bg-white p-4 md:p-8 pb-28 md:pb-8">
+      <header>
+        <p class="text-sm text-neutral-500">Prestação de contas e rastreabilidade</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Relatórios e Auditoria de Sistema</h2>
+      </header>
+
+      <section class="mt-6 grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5">
+          <h3 class="text-lg font-bold">Relatório de Impacto Social e Ambiental</h3>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <label class="text-sm font-semibold">Data Inicial<input type="date" class="mt-1 w-full rounded-xl border border-neutral-200 px-3 py-2 outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" /></label>
+            <label class="text-sm font-semibold">Data Final<input type="date" class="mt-1 w-full rounded-xl border border-neutral-200 px-3 py-2 outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" /></label>
+          </div>
+          <label class="mt-3 block text-sm font-semibold">Região/Bairro
+            <select class="mt-1 w-full rounded-xl border border-neutral-200 px-3 py-2 outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100">
+              <option>Região Metropolitana</option><option>Benfica</option><option>Meireles</option><option>Eusébio</option><option>Aquiraz</option>
+            </select>
+          </label>
+          <div class="mt-3 space-y-2 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-[#FFD700]" />Volume Coletado (Kg)</label>
+            <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-[#FFD700]" />Refeições Equivalentes</label>
+            <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-[#FFD700]" />CO2 Evitado</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="accent-[#FFD700]" />Ranking de Doadores</label>
+          </div>
+          <button class="mt-4 w-full rounded-xl bg-[#FFD700] py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600]">Gerar Relatório de Impacto (PDF/CSV)</button>
+        </article>
+
+        <article class="rounded-3xl border border-neutral-200 bg-white shadow-soft p-5">
+          <h3 class="text-lg font-bold">Relatório de Conformidade (Compliance)</h3>
+          <div class="mt-4 space-y-2 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-[#FFD700]" />Entidades Aprovadas/Rejeitadas</label>
+            <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-[#FFD700]" />Denúncias Resolvidas</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="accent-[#FFD700]" />Usuários Suspensos</label>
+          </div>
+          <label class="mt-4 block text-sm font-semibold">Período
+            <select class="mt-1 w-full rounded-xl border border-neutral-200 px-3 py-2 outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100">
+              <option>Últimos 30 dias</option><option>Últimos 7 dias</option><option>Últimos 90 dias</option>
+            </select>
+          </label>
+          <button class="mt-4 w-full rounded-xl bg-[#FFD700] py-3 text-sm font-bold text-[#1A1A1A] hover:bg-[#f2c600]">Exportar Dados de Compliance</button>
+        </article>
+      </section>
+
+      <section class="mt-6 rounded-3xl border border-neutral-200 bg-white shadow-soft p-4 md:p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <h3 class="text-lg font-bold">Logs de Ações Administrativas</h3>
+          <div class="relative w-full md:w-80">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400"></i>
+            <input id="logSearch" type="text" placeholder="Buscar por nome do admin ou ação" class="w-full rounded-full border border-neutral-200 bg-neutral-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-[#FFD700] focus:ring-2 focus:ring-yellow-100" />
+          </div>
+        </div>
+
+        <div class="mt-4 overflow-x-auto">
+          <table class="min-w-[980px] w-full text-sm">
+            <thead>
+              <tr class="border-b border-neutral-200 text-neutral-500">
+                <th class="py-3 text-left font-semibold">Data/Hora</th>
+                <th class="py-3 text-left font-semibold">Administrador</th>
+                <th class="py-3 text-left font-semibold">Ação Realizada</th>
+                <th class="py-3 text-left font-semibold">Alvo</th>
+                <th class="py-3 text-left font-semibold">Endereço IP</th>
+              </tr>
+            </thead>
+            <tbody id="logsTable"></tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <p id="pageInfo" class="text-xs text-neutral-500"></p>
+          <div class="flex gap-2">
+            <button id="prevBtn" class="rounded-xl border border-neutral-300 px-3 py-1.5 text-sm font-semibold hover:bg-neutral-100">Anterior</button>
+            <button id="nextBtn" class="rounded-xl border border-neutral-300 px-3 py-1.5 text-sm font-semibold hover:bg-neutral-100">Próxima</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    const logs = [
+      {dt:"26/05/2026 10:12", admin:"Admin_Carlos", tipo:"Aprovação", desc:"Aprovou ONG Instituto Esperança", alvo:"ONG-883", ip:"189.22.14.101"},
+      {dt:"26/05/2026 09:48", admin:"Admin_Ana", tipo:"Punição", desc:"Suspendeu Doador Padaria Central", alvo:"USR-551", ip:"177.31.85.221"},
+      {dt:"25/05/2026 18:30", admin:"Admin_Rita", tipo:"Rotina", desc:"Exportou relatório de impacto", alvo:"REP-402", ip:"2804:14d:9a2b::10"},
+      {dt:"25/05/2026 16:02", admin:"Admin_Carlos", tipo:"Punição", desc:"Baniu usuário com fraude documental", alvo:"USR-991", ip:"189.22.14.101"},
+      {dt:"25/05/2026 14:25", admin:"Admin_Ana", tipo:"Aprovação", desc:"Validou entidade Mercado União", alvo:"EMP-220", ip:"177.31.85.221"},
+      {dt:"24/05/2026 11:09", admin:"Admin_Rita", tipo:"Rotina", desc:"Forçou conclusão de lote LOT-8821", alvo:"LOT-8821", ip:"2804:14d:9a2b::10"},
+      {dt:"24/05/2026 10:10", admin:"Admin_Mauro", tipo:"Alerta", desc:"Solicitou ajuste de documentação de ONG", alvo:"ONG-304", ip:"201.45.19.18"},
+      {dt:"23/05/2026 19:17", admin:"Admin_Carlos", tipo:"Rotina", desc:"Cancelou reserva por não comparecimento", alvo:"LOT-8702", ip:"189.22.14.101"}
+    ];
+
+    const pageSize = 5;
+    let page = 1;
+
+    function badge(tipo){
+      if(tipo === "Punição") return "bg-rose-100 text-rose-700";
+      if(tipo === "Aprovação") return "bg-yellow-100 text-yellow-800";
+      if(tipo === "Alerta") return "bg-amber-100 text-amber-700";
+      return "bg-blue-100 text-blue-700";
+    }
+
+    function getFiltered(){
+      const q = document.getElementById("logSearch").value.toLowerCase().trim();
+      return logs.filter(l => !q || `${l.admin} ${l.desc}`.toLowerCase().includes(q));
+    }
+
+    function renderLogs(){
+      const data = getFiltered();
+      const totalPages = Math.max(1, Math.ceil(data.length / pageSize));
+      if(page > totalPages) page = totalPages;
+      const start = (page - 1) * pageSize;
+      const current = data.slice(start, start + pageSize);
+
+      document.getElementById("logsTable").innerHTML = current.map(l => `
+        <tr class="border-b border-neutral-100 hover:bg-gray-50 transition">
+          <td class="py-3">${l.dt}</td>
+          <td class="py-3 font-semibold">${l.admin}</td>
+          <td class="py-3"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${badge(l.tipo)}">${l.tipo}</span> <span class="ml-2">${l.desc}</span></td>
+          <td class="py-3">${l.alvo}</td>
+          <td class="py-3 text-neutral-500">${l.ip}</td>
+        </tr>
+      `).join("");
+
+      document.getElementById("pageInfo").textContent = `Página ${page} de ${totalPages}`;
+      document.getElementById("prevBtn").disabled = page === 1;
+      document.getElementById("nextBtn").disabled = page === totalPages;
+      document.getElementById("prevBtn").classList.toggle("opacity-50", page === 1);
+      document.getElementById("nextBtn").classList.toggle("opacity-50", page === totalPages);
+      lucide.createIcons();
+    }
+
+    document.getElementById("logSearch").addEventListener("input", () => { page = 1; renderLogs(); });
+    document.getElementById("prevBtn").addEventListener("click", () => { if(page > 1){ page--; renderLogs(); } });
+    document.getElementById("nextBtn").addEventListener("click", () => { page++; renderLogs(); });
+
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarLabels = document.querySelectorAll("[data-sidebar-label]");
+
+    sidebarToggle.addEventListener("click", () => {
+      const isCollapsed = sidebar.classList.toggle("collapsed");
+      sidebar.classList.toggle("w-64", !isCollapsed);
+      sidebar.classList.toggle("w-20", isCollapsed);
+      sidebar.classList.toggle("items-center", isCollapsed);
+      sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+      sidebar.querySelectorAll("nav a").forEach((link) => {
+        link.classList.toggle("justify-center", isCollapsed);
+        link.classList.toggle("px-3", !isCollapsed);
+        link.classList.toggle("px-0", isCollapsed);
+      });
+      sidebarLabels.forEach((label) => label.classList.toggle("hidden", isCollapsed));
+      sidebarToggle.innerHTML = isCollapsed ? '<i data-lucide="panel-left-open" class="h-5 w-5"></i>' : '<i data-lucide="panel-left-close" class="h-5 w-5"></i>';
+      lucide.createIcons();
+    });
+
+    lucide.createIcons();
+    renderLogs();
+  </script>
+  <script src="../../assets/js/dashboard-theme.js"></script>
+</body>
+</html>
+
+
